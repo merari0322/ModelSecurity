@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Entity.Model
+{
+    class ExperienciaLineaTematica
+    {
+        public int Id { get; set; }
+        public string LineaTematicaId1 { get; set; }
+    }
+}

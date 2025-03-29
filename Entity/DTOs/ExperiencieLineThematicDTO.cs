@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entity.Model
+namespace Entity.DTOs
 {
-    class UserDTO
+    class ExperiencieLineThematicDTO
     {
         public int Id { get; set; }
-        public string name { get; set; }
-        public string password { get; set; }
-        public bool active { get; set; }
+        public string lineThematicId1 { get; set; }
     }
 }

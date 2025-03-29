@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace Entity.Model
 {
-    class RolUserDTO
+    class GradeDTO
     {
         public int Id { get; set; }
-        public int IdRol { get; set; }
-        public RolDTO Rol { get; set; }
-        public int IdUser { get; set; }
-        public UserDTO User { get; set;  }
+        public string name { get; set; }
     }
 }

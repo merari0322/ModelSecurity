@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entity.DTOs
+namespace Entity.Model
 {
-    class ExperienciaGrupoPoblacionalDTO
+    class DocumentDTO
     {
         public int Id { get; set; }
+        public string url { get; set; }
+        public string name { get; set; }
+
     }
 }

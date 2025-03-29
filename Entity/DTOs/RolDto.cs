@@ -9,11 +9,9 @@ namespace Entity.Model
     class RolDTO
     {
         public int Id { get; set; }
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public decimal Valor { get; set; }
+        public string typeRol { get; set; }
+        public string name { get; set; }
         public  bool Active { get; set; }
-        public DateTime DeleteAt { get; set; }
-        public DateTime CreateAt { get; set; }
+
     }
 }

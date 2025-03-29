@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entity.Model
+namespace Entity.DTOs
 {
-    class GradoDTO
+    class populationGradeDTO
     {
         public int id { get; set; }
-        public string Nombre { get; set; }
+        public string name { get; set; }
     }
 }

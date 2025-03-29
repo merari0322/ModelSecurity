@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entity.Model
+namespace Entity.DTOs
 {
-    class RolPermisoDTO
+    class UserInstitucionDTO
     {
         public int Id { get; set; }
-        public string RolId { get; set; }
-        public string PermisoId { get; set; }
+
     }
 }

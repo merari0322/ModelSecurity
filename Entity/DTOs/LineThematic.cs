@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entity.Model
+namespace Entity.DTOs
 {
-    class PermisoDTO
+    class LineThematic
     {
         public int Id { get; set; }
-        public string TipoPermiso { get; set; }
-
+        public string name { get; set; }
     }
 }

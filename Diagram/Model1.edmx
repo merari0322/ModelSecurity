@@ -633,19 +633,19 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bd15c8cd4f5e4f9890551bc5e1eacabc" Name="Diagram1">
+      <Diagram DiagramId="bd15c8cd4f5e4f9890551bc5e1eacabc" Name="Diagram1" ZoomLevel="82">
         <EntityTypeShape EntityType="Model1.User" Width="1.5" PointX="3" PointY="13.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.Rol" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.RolPermission" Width="1.5" PointX="5.25" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.UserRol" Width="1.5" PointX="5.25" PointY="14" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.Permission" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Permission" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.HistoryExperience" Width="1.5" PointX="9.75" PointY="15.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.State" Width="1.5" PointX="7.5" PointY="18.25" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.Evaluation" Width="1.5" PointX="5.25" PointY="19.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.EvaluationCriteria" Width="1.5" PointX="7.5" PointY="20.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.Criteria" Width="1.5" PointX="9.75" PointY="21" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.Experience" Width="1.5" PointX="8.25" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.Objective" Width="1.5" PointX="10.5" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Objective" Width="1.5" PointX="12" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.ExperiencePopulationGroup" Width="1.5" PointX="10.5" PointY="10.625" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.PopulationGroup" Width="1.5" PointX="12.75" PointY="10.625" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.verification" Width="1.5" PointX="10.5" PointY="4.875" IsExpanded="true" />
@@ -656,7 +656,7 @@
         <EntityTypeShape EntityType="Model1.ExperienceLineThematic" Width="1.5" PointX="12.5" PointY="13" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.LineThematic" Width="1.5" PointX="10.25" PointY="23.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.UserInstitution" Width="1.5" PointX="0.75" PointY="16.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.Person" Width="1.5" PointX="5.25" PointY="31.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Person" Width="1.5" PointX="5.375" PointY="23.875" IsExpanded="true" />
         <AssociationConnector Association="Model1.UsuarioUsuario_Rol" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.UsuarioHistorial_Experiencia" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.UsuarioEvaluacion" ManuallyRouted="false" />

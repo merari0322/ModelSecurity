@@ -1,16 +1,13 @@
-﻿
-using Entity.Context;
-using Entity.Context;
+﻿using Entity.Context;
 using Entity.Model;
+using Entity.ModelExperience;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+
 namespace Data
 {
-    /// <summary>
-    /// Repositorio encargado de la gestión de la entidad Rol en la base de datos.
-    /// </summary>
-    public class RolData
+    class UserRolData
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger _logger;
@@ -20,7 +17,7 @@ namespace Data
         ///</summary>
         ///<param name="context">Instancia de <see cref="ApplicationDbContext"/>para la conexión con la base de datos.</param>
 
-        public RolData(ApplicationDbContext context, ILogger logger)
+        public UserRolData(ApplicationDbContext context, ILogger logger)
         {
             _context = context;
             _logger = logger;
@@ -31,18 +28,18 @@ namespace Data
         ///</summary>
         ///<returns> Lista de roles</returns>
 
-        public async Task<IEnumerable<Rol>> GetAllAsync()
+        public async Task<IEnumerable<UserRol>> GetAllAsync()
         {
-            return await _context.Set<Rol>().ToListAsync();
+            return await _context.Set<UserRol>().ToListAsync();
         }
 
         ///<summary> Obtiene un rol específico por su identificador.
 
-        public async Task<Rol?> GetByIdAsync(int id)
+        public async Task<UserRol?> GetByIdAsync(int id)
         {
             try
             {
-                return await _context.Set<Rol>().FindAsync(id);
+                return await _context.Set<UserRol>().FindAsync(id);
             }
             catch (Exception ex)
             {
@@ -54,16 +51,16 @@ namespace Data
         ///<summary>
         ///Crea un nuevo rol en la base de datos.
         ///</summary>
-        ///<param name="rol">Instancia del rol a crear</param>
+        ///<param name="userRol">Instancia del rol a crear</param>
         ///<returns>El rol creado</returns>
 
-        public async Task<Rol> CreateAsync(Rol rol)
+        public async Task<UserRol> CreateAsync(UserRol userRol)
         {
             try
             {
-                await _context.Set<Rol>().AddAsync(rol);
+                await _context.Set<UserRol>().AddAsync(userRol);
                 await _context.SaveChangesAsync();
-                return rol;
+                return userRol;
             }
             catch (Exception ex)
             {
@@ -75,14 +72,14 @@ namespace Data
         ///<summary>
         ///Actualiza un rol existente en la base de datos.
         ///</summary>
-        ///<param name="rol">Objeto con la información actualizada</param>
+        ///<param name="userRol">Objeto con la información actualizada</param>
         ///<returns>True si la operación fue exitosa, False en caso contrario.</returns>
 
-        public async Task<bool> UpdateAsync(Rol rol)
+        public async Task<bool> UpdateAsync(UserRol userRol)
         {
             try
             {
-                _context.Set<Rol>().Update(rol);
+                _context.Set<UserRol>().Update(userRol);
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -103,11 +100,11 @@ namespace Data
         {
             try
             {
-                var rol = await _context.Set<Rol>().FindAsync(id);
-                if (rol == null)
+                var userRol = await _context.Set<UserRol>().FindAsync(id);
+                if (userRol == null)
                     return false;
 
-                _context.Set<Rol>().Remove(rol);
+                _context.Set<UserRol>().Remove(userRol);
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -121,11 +118,3 @@ namespace Data
         }
     }
 }
-
-
-
-
-
-        
-    
-

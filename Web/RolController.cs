@@ -1,5 +1,5 @@
 ﻿using Business;
-using EntityDTOs;
+using Entity.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;

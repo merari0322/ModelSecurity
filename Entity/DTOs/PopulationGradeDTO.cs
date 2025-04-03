@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Entity.DTOs
 {
-    class populationGradeDTO
+    public class PopulationGradeDTO
     {
-        public int id { get; set; }
-        public string name { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
     }
 }

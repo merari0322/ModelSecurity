@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entity.DTOs
 {
-    class ExperienciePopulationGroupDTO
+    public class ExperienciePopulationGroupDTO
     {
         public int Id { get; set; }
     }

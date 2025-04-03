@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Entity.Model
 {
-    class StateDTO
+    public class StateDTO
     {
         public int Id { get; set; }
-        public string name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
 
     }

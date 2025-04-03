@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Entity.Model
 {
-    class DocumentDTO
+    public class DocumentDTO
     {
         public int Id { get; set; }
-        public string url { get; set; }
-        public string name { get; set; }
+        public string Url { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
 
     }
 }

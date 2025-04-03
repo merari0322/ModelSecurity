@@ -1,21 +1,21 @@
-﻿using Entity.Context;
+﻿using Entity.Contexs;
 using Entity.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Data
 {
-    class EvaluationData
+    public class EvaluationData
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger _logger;
+        private readonly ILogger<EvaluationData> _logger;
 
         ///<summary>
         ///Constructor que recibe el contexto de base de datos.
         ///</summary>
         ///<param name="context">Instancia de <see cref="ApplicationDbContext"/>para la conexión con la base de datos.</param>
 
-        public EvaluationData(ApplicationDbContext context, ILogger logger)
+        public EvaluationData(ApplicationDbContext context, ILogger<EvaluationData> logger)
         {
             _context = context;
             _logger = logger;

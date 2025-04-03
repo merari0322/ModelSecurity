@@ -1,21 +1,22 @@
-﻿using Entity.Context;
+﻿
+using Entity.Contexs;
 using Entity.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Data
 {
-    class DocumentData
+    public class DocumentData
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger _logger;
+        private readonly ILogger<DocumentData> _logger;
 
         ///<summary>
         ///Constructor que recibe el contexto de base de datos.
         ///</summary>
         ///<param name="context">Instancia de <see cref="ApplicationDbContext"/>para la conexión con la base de datos.</param>
 
-        public DocumentData(ApplicationDbContext context, ILogger logger)
+        public DocumentData(ApplicationDbContext context, ILogger<DocumentData> logger)
         {
             _context = context;
             _logger = logger;

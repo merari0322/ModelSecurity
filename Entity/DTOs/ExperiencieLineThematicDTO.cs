@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace Entity.DTOs
 {
-    class ExperiencieLineThematicDTO
+    public class ExperiencieLineThematicDTO
     {
         public int Id { get; set; }
-        public string lineThematicId1 { get; set; }
+        public string LineThematicId1 { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public int LineThematicId { get; set; }
+        public int ExperienceId { get; set; }
+
+
     }
 }

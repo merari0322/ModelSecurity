@@ -1,4 +1,4 @@
-﻿using Entity.Context;
+﻿using Entity.Contexs;
 using Entity.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -6,17 +6,17 @@ using Microsoft.Extensions.Logging;
 
 namespace Data
 {
-    class ExperienceLineData
+     public class ExperiencieLineThematicData
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger _logger;
+        private readonly ILogger<ExperiencieLineThematicData> _logger;
 
         ///<summary>
         ///Constructor que recibe el contexto de base de datos.
         ///</summary>
         ///<param name="context">Instancia de <see cref="ApplicationDbContext"/>para la conexión con la base de datos.</param>
 
-        public ExperienceLineData(ApplicationDbContext context, ILogger logger)
+        public ExperiencieLineThematicData(ApplicationDbContext context, ILogger<ExperiencieLineThematicData> logger)
         {
             _context = context;
             _logger = logger;
@@ -27,18 +27,18 @@ namespace Data
         ///</summary>
         ///<returns> Lista de roles</returns>
 
-        public async Task<IEnumerable<ExperienceLine>> GetAllAsync()
+        public async Task<IEnumerable<ExperienciaLineThematic>> GetAllAsync()
         {
-            return await _context.Set<ExperienceLine>().ToListAsync();
+            return await _context.Set<ExperienciaLineThematic>().ToListAsync();
         }
 
         ///<summary> Obtiene un rol específico por su identificador.
 
-        public async Task<ExperienceLine?> GetByIdAsync(int id)
+        public async Task<ExperienciaLineThematic?> GetByIdAsync(int id)
         {
             try
             {
-                return await _context.Set<ExperienceLine>().FindAsync(id);
+                return await _context.Set<ExperienciaLineThematic>().FindAsync(id);
             }
             catch (Exception ex)
             {
@@ -50,16 +50,16 @@ namespace Data
         ///<summary>
         ///Crea un nuevo rol en la base de datos.
         ///</summary>
-        ///<param name="experienceLine>Instancia del rol a crear</param>
+        ///<param name="ExperienciaLineThematic>Instancia del rol a crear</param>
         ///<returns>El rol creado</returns>
 
-        public async Task<ExperienceLine> CreateAsync(ExperienceLine experienceLine)
+        public async Task<ExperienciaLineThematic> CreateAsync(ExperienciaLineThematic ExperienciaLineThematic)
         {
             try
             {
-                await _context.Set<ExperienceLine>().AddAsync(experienceLine);
+                await _context.Set<ExperienciaLineThematic>().AddAsync(ExperienciaLineThematic);
                 await _context.SaveChangesAsync();
-                return experienceLine;
+                return ExperienciaLineThematic;
             }
             catch (Exception ex)
             {
@@ -71,14 +71,14 @@ namespace Data
         ///<summary>
         ///Actualiza un rol existente en la base de datos.
         ///</summary>
-        ///<param name="experienceLine">Objeto con la información actualizada</param>
+        ///<param name="ExperienciaLineThematic">Objeto con la información actualizada</param>
         ///<returns>True si la operación fue exitosa, False en caso contrario.</returns>
 
-        public async Task<bool> UpdateAsync(ExperienceLine experienceLine)
+        public async Task<bool> UpdateAsync(ExperienciaLineThematic ExperienciaLineThematic)
         {
             try
             {
-                _context.Set<ExperienceLine>().Update(experienceLine);
+                _context.Set<ExperienciaLineThematic>().Update(ExperienciaLineThematic);
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -99,11 +99,11 @@ namespace Data
         {
             try
             {
-                var experienceLine = await _context.Set<ExperienceLine>().FindAsync(id);
-                if (experienceLine == null)
+                var ExperienciaLineThematic = await _context.Set<ExperienciaLineThematic>().FindAsync(id);
+                if (ExperienciaLineThematic == null)
                     return false;
 
-                _context.Set<ExperienceLine>().Remove(experienceLine);
+                _context.Set<ExperienciaLineThematic>().Remove(ExperienciaLineThematic);
                 await _context.SaveChangesAsync();
                 return true;
             }

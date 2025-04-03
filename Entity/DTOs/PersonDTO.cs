@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Entity.Model
 {
-    class PersonDTO
+   public class PersonDTO
     {
         public int Id { get; set; }
-        public string name { get; set; }
-        public string email { get; set; }
-        public string phone { get; set; }
-        public bool active { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public int Phone { get; set; }
+        public string Active { get; set; } = string.Empty;
 
     }
 }

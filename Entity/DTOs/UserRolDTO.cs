@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Entity.Model
 {
-    class UserRolDTO
+    public class UserRolDTO
     {
         public int Id { get; set; }
-        public string userId1 { get; set; }
-        public string rolId1 { get; set; } 
+        public int UserId { get; set; } 
+        public int RolId { get; set; }
     }
 }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Entity.Model
 {
-    class VerificationDTO
+    public class VerificationDTO
     {
         public int Id { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
 
     }
 }

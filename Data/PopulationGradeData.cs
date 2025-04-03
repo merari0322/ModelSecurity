@@ -1,4 +1,4 @@
-﻿using Entity.Context;
+﻿using Entity.Contexs;
 using Entity.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -6,17 +6,17 @@ using Microsoft.Extensions.Logging;
 
 namespace Data
 {
-    class PopulationGradeData
+     public class PopulationGradeData
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger _logger;
+        private readonly ILogger<PopulationGradeData> _logger;
 
         ///<summary>
         ///Constructor que recibe el contexto de base de datos.
         ///</summary>
         ///<param name="context">Instancia de <see cref="ApplicationDbContext"/>para la conexión con la base de datos.</param>
 
-        public PopulationGradeData(ApplicationDbContext context, ILogger logger)
+        public PopulationGradeData(ApplicationDbContext context, ILogger<PopulationGradeData> logger)
         {
             _context = context;
             _logger = logger;

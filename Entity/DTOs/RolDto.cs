@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Entity.Model
 {
-    class RolDTO
+    public class RolDTO
     {
         public int Id { get; set; }
-        public string typeRol { get; set; }
-        public string name { get; set; }
+        public string TypeRol { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
         public  bool Active { get; set; }
 
     }

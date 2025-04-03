@@ -1,6 +1,6 @@
 ﻿
-using Entity.Context;
-using Entity.Context;
+using Entity.Contexs;
+using Entity.Contexs;
 using Entity.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -13,14 +13,14 @@ namespace Data
     public class RolData
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger _logger;
+        private readonly ILogger<RolData> _logger;
 
         ///<summary>
         ///Constructor que recibe el contexto de base de datos.
         ///</summary>
         ///<param name="context">Instancia de <see cref="ApplicationDbContext"/>para la conexión con la base de datos.</param>
 
-        public RolData(ApplicationDbContext context, ILogger logger)
+        public RolData(ApplicationDbContext context, ILogger<RolData> logger)
         {
             _context = context;
             _logger = logger;

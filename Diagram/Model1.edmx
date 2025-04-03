@@ -25,7 +25,7 @@
           <EntitySet Name="Criterios" EntityType="Model1.Criteria" />
           <EntitySet Name="Experiencias" EntityType="Model1.Experience" />
           <EntitySet Name="Objectivos" EntityType="Model1.Objective" />
-          <EntitySet Name="Experiencia_Grupo_Poblacionals" EntityType="Model1.ExperiencePopulationGroup" />
+          <EntitySet Name="Experiencia_Grupo_Poblacionals" EntityType="Model1.ExperiencePopulation" />
           <EntitySet Name="GrupoPoblacionals" EntityType="Model1.PopulationGroup" />
           <EntitySet Name="Verificacions" EntityType="Model1.verification" />
           <EntitySet Name="ExperienciaGrados" EntityType="Model1.ExperienceGrade" />
@@ -100,12 +100,12 @@
             <End Role="verification" EntitySet="Verificacions" />
           </AssociationSet>
           <AssociationSet Name="ExperienciaGradoExperiencia" Association="Model1.ExperienciaGradoExperiencia">
-            <End Role="ExperienceGrade" EntitySet="ExperienciaGrados" />
-            <End Role="Experience" EntitySet="Experiencias" />
+            <End EntitySet="ExperienciaGrados" Role="ExperienceGrade" />
+            <End EntitySet="Experiencias" Role="Experience" />
           </AssociationSet>
           <AssociationSet Name="GradoExperienciaGrado" Association="Model1.GradoExperienciaGrado">
-            <End Role="Grade" EntitySet="Grados" />
-            <End Role="ExperienceGrade" EntitySet="ExperienciaGrados" />
+            <End EntitySet="Grados" Role="Grade" />
+            <End EntitySet="ExperienciaGrados" Role="ExperienceGrade" />
           </AssociationSet>
           <AssociationSet Name="InstitucionExperiencia" Association="Model1.InstitucionExperiencia">
             <End Role="Institution" EntitySet="Institucions" />
@@ -298,13 +298,14 @@
           <Property Name="experienceId1" Type="Int32" Nullable="false" />
           <NavigationProperty Name="IdExperience" Relationship="Model1.ExperienciaObjectivo" FromRole="Objective" ToRole="Experience" />
         </EntityType>
-        <EntityType Name="ExperiencePopulationGroup">
+        <EntityType Name="ExperiencePopulation">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="IdExperience" Relationship="Model1.ExperienciaExperienciaGrupoPoblacional" FromRole="ExperiencePopulationGroup" ToRole="Experience" />
           <NavigationProperty Name="IdPopulationGroup" Relationship="Model1.ExperienciaGrupoPoblacionalGrupoPoblacional" FromRole="ExperiencePopulationGroup" ToRole="PopulationGroup" />
+          <Property Name="Namw" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="PopulationGroup">
           <Key>
@@ -522,10 +523,10 @@
         </Association>
         <Association Name="ExperienciaExperienciaGrupoPoblacional">
           <End Type="Model1.Experience" Role="Experience" Multiplicity="1" />
-          <End Type="Model1.ExperiencePopulationGroup" Role="ExperiencePopulationGroup" Multiplicity="*" />
+          <End Type="Model1.ExperiencePopulation" Role="ExperiencePopulationGroup" Multiplicity="*" />
         </Association>
         <Association Name="ExperienciaGrupoPoblacionalGrupoPoblacional">
-          <End Type="Model1.ExperiencePopulationGroup" Role="ExperiencePopulationGroup" Multiplicity="*" />
+          <End Type="Model1.ExperiencePopulation" Role="ExperiencePopulationGroup" Multiplicity="*" />
           <End Type="Model1.PopulationGroup" Role="PopulationGroup" Multiplicity="1" />
         </Association>
         <Association Name="ExperienciaVerificacion">
@@ -533,12 +534,12 @@
           <End Type="Model1.verification" Role="verification" Multiplicity="1" />
         </Association>
         <Association Name="ExperienciaGradoExperiencia">
-          <End Type="Model1.ExperienceGrade" Role="ExperienceGrade" Multiplicity="*" />
-          <End Type="Model1.Experience" Role="Experience" Multiplicity="1" />
+          <End Type="Model1.ExperienceGrade" Multiplicity="*" Role="ExperienceGrade" />
+          <End Type="Model1.Experience" Multiplicity="1" Role="Experience" />
         </Association>
         <Association Name="GradoExperienciaGrado">
-          <End Type="Model1.Grade" Role="Grade" Multiplicity="1" />
-          <End Type="Model1.ExperienceGrade" Role="ExperienceGrade" Multiplicity="*" />
+          <End Type="Model1.Grade" Multiplicity="1" Role="Grade" />
+          <End Type="Model1.ExperienceGrade" Multiplicity="*" Role="ExperienceGrade" />
           <ReferentialConstraint>
             <Principal Role="Grade">
               <PropertyRef Name="Id" />
@@ -633,7 +634,7 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bd15c8cd4f5e4f9890551bc5e1eacabc" Name="Diagram1" ZoomLevel="82">
+      <Diagram DiagramId="bd15c8cd4f5e4f9890551bc5e1eacabc" Name="Diagram1" ZoomLevel="80">
         <EntityTypeShape EntityType="Model1.User" Width="1.5" PointX="3" PointY="13.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.Rol" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.RolPermission" Width="1.5" PointX="5.25" PointY="2.125" IsExpanded="true" />
@@ -646,11 +647,11 @@
         <EntityTypeShape EntityType="Model1.Criteria" Width="1.5" PointX="9.75" PointY="21" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.Experience" Width="1.5" PointX="8.25" PointY="8.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.Objective" Width="1.5" PointX="12" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.ExperiencePopulationGroup" Width="1.5" PointX="10.5" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.ExperiencePopulation" Width="1.5" PointX="10.5" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.PopulationGroup" Width="1.5" PointX="12.75" PointY="10.625" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.verification" Width="1.5" PointX="10.5" PointY="4.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.ExperienceGrade" Width="1.5" PointX="6" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.Grade" Width="1.5" PointX="3.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Grade" Width="1.5" PointX="3.75" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.Institution" Width="1.5" PointX="3" PointY="19.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.Document" Width="1.5" PointX="6" PointY="5.625" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.ExperienceLineThematic" Width="1.5" PointX="12.5" PointY="13" IsExpanded="true" />
@@ -673,8 +674,8 @@
         <AssociationConnector Association="Model1.ExperienciaExperienciaGrupoPoblacional" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.ExperienciaGrupoPoblacionalGrupoPoblacional" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.ExperienciaVerificacion" ManuallyRouted="false" />
-        <AssociationConnector Association="Model1.ExperienciaGradoExperiencia" ManuallyRouted="false" />
-        <AssociationConnector Association="Model1.GradoExperienciaGrado" ManuallyRouted="false" />
+        <AssociationConnector ManuallyRouted="false" Association="Model1.ExperienciaGradoExperiencia" />
+        <AssociationConnector ManuallyRouted="false" Association="Model1.GradoExperienciaGrado" />
         <AssociationConnector Association="Model1.InstitucionExperiencia" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.InstitucionExperiencia1" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.UsuarioInstitucionInstitucion" ManuallyRouted="false" />

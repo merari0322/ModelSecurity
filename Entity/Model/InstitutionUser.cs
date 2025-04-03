@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entity.Model
 {
-    class InstitutionUser
+    public class InstitutionUser
     {
         public int Id { get; set; }
     }

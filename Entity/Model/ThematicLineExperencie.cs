@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Entity.Model
 {
-    class ThematicLineExperencie
+    public class ThematicLineExperencie
     {
         public int Id { get; set; }
-        public string ThematicLineId1 { get; set; }
+        public string ThematicLineId1 { get; set; } = string.Empty;
     }
 }

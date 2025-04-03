@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Entity.Model
 {
-    class GradeDTO
+    public class GradeDTO
     {
         public int Id { get; set; }
-        public string name { get; set; }
-    }
+        public string Name { get; set; } = string.Empty;
+        public string Level { get; set; }= string.Empty;
+    }   
 }

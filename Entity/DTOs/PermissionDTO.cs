@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Entity.Model
 {
-    class PermissionDTO
+    public class PermissionDTO
     {
         public int Id { get; set; }
-        public string permissiontype { get; set; }
+        public string Permissiontype { get; set; } = string.Empty;
 
     }
 }

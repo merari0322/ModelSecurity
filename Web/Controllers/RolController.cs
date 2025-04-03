@@ -1,5 +1,7 @@
 ﻿using Business;
+using Data;
 using Entity.DTOs;
+using Entity.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,7 +17,7 @@ namespace Web.Controllers
     [Produces("application/json")]
     public class RolController : ControllerBase
     {
-        private readonly IRolBusiness _rolBusiness;
+        private readonly RolBusiness _RolBusiness;
         private readonly ILogger<RolController> _logger;
 
         /// <summary>
@@ -23,9 +25,9 @@ namespace Web.Controllers
         /// </summary>
         /// <param name="RolBusiness">Capa de negocios de permisos.</param>
         /// <param name="logger">Logger para registro de enventos</param>
-        public RolController(IRolBusiness rolBusiness, ILogger<RolController> logger)
+        public RolController(RolBusiness RolBusiness, ILogger<RolController> logger)
         {
-            _rolBusiness = rolBusiness;
+            _RolBusiness = RolBusiness;
             _logger = logger;
         }
         /// <summary>
@@ -35,7 +37,7 @@ namespace Web.Controllers
         /// <response code="200">Lista de permisos</response>
         /// <response code="500">Error interno del servidor</response>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<RolDto>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<RolData>), 200)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetAllRols()
         {
@@ -44,10 +46,10 @@ namespace Web.Controllers
                 var Rols = await _RolBusiness.GetAllRolesAsync();
                 return Ok(Rols);
             }
-            catch (IExternalScopeProvider ex)
+            catch (ExternalServiceException ex)
             {
                 _logger.LogError(ex, "Error al obtener los permisos");
-                return StatusCode(500), new { message = ex.Message });
+                return StatusCode(500, new { message = ex.Message });
             }
         }
         /// <summary>
@@ -60,7 +62,7 @@ namespace Web.Controllers
         /// <response code="404">Permiso no encontrado</response>
         /// <response code="500">Error interno del servidor</response>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(RolDto), 200)]
+        [ProducesResponseType(typeof(RolDTO), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
@@ -69,22 +71,21 @@ namespace Web.Controllers
             try
             {
                 var Rol = await _RolBusiness.GetRolByIdAsync(id);
-                if (Rol == null)
-                    return Ok(Rol);
+                return Ok(Rol);
             }
             catch (ValidationException ex)
             {
-                _Logger.LogWarning(ex "Validacion  fallida para el permiso con ID: {RolId}", id);
+                _logger.LogWarning(ex, "Validación fallida para el permiso con ID: {RolId}", id);
                 return BadRequest(new { message = ex.Message });
             }
-            catch (EntityNotFountException ex)
+            catch (EntityNotFoundException ex)
             {
-                _Logger.LogWarning(ex, "Permiso no encontrado con ID: {RolId}", id);
+                _logger.LogInformation(ex, "Permiso no encontrado con ID: {RolId}", id);
                 return NotFound(new { message = ex.Message });
             }
             catch (ExternalServiceException ex)
             {
-                _logger.LogError(ex, "Error al obtener el permiso con ID: {RolId}", id);
+                _logger.LogError(ex, "Error al obtener permiso con ID: {RolId}", id);
                 return StatusCode(500, new { message = ex.Message });
             }
         }
@@ -97,20 +98,19 @@ namespace Web.Controllers
         /// <response code="400">Datos del permiso no validos</response>
         /// <response code="500">Error interno del servidor</response>
         [HttpPost]
-        [ProducesResponseType(typeof(RolDto), 201)]
+        [ProducesResponseType(typeof(RolDTO), 201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> CreateRol([FromBody] RolDto Rol)
+        public async Task<IActionResult> CreateRol([FromBody] RolDTO Rol)
         {
             try
             {
-                var createRol = await _RolBusiness.CreateRolAsync(Rol);
-                return CreatedAtAction(nameof(GetRolById), new { id = createRol.Id }, createRol);
+                var createdRol = await _RolBusiness.CreateRolAsync(Rol);
+                return CreatedAtAction(nameof(GetRolById), new { id = createdRol.Id }, createdRol);
             }
-
             catch (ValidationException ex)
             {
-                _Logger.LogWarning(ex, "Validacion fallida para crear permiso");
+                _logger.LogWarning(ex, "Validación fallida al crear permiso");
                 return BadRequest(new { message = ex.Message });
             }
             catch (ExternalServiceException ex)

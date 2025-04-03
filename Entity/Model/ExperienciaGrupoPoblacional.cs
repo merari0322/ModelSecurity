@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entity.Model
 {
-    class ExperienciaGrupoPoblacional
+    public class ExperienciaGrupoPoblacional
     {
         public int Id { get; set; }
     }

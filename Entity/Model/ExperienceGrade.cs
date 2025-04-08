@@ -19,6 +19,6 @@ public class ExperienceGrade
  
         public DateTime DeleteAt { get; set; }
         public DateTime CreateAt { get; set; }
-
+        public string Name { get; set; }
     }
 }

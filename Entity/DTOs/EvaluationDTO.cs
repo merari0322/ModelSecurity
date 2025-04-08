@@ -11,8 +11,8 @@ namespace Entity.DTOs
         public int Id { get; set; }
         public string TypeEvaluation { get; set; } = string.Empty;
         public string Comments { get; set; } = string.Empty;
-        public DateTime DateTime { get; set; }
+        public DateTime DataTime { get; set; }
         public int UserId1 { get; set; }
-        public int ExperiencieId1 { get; set; }
+        public int ExperienceId1 { get; set; }
     }
 }

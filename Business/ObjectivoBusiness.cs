@@ -27,17 +27,7 @@ namespace Business
             try
             {
                 var objectives = await _objectiveData.GetAllAsync();
-                var objectiveDTOs = objectives.Select(obj => new ObjectiveDTO
-                {
-                    Id = obj.Id,
-                    ObjectiveDescription = obj.ObjectiveDescription,
-                    Innovation = obj.Innovation,
-                    Results = obj.Results,
-                    Sustainability = obj.Sustainability
-
-                }).ToList();
-
-                return objectiveDTOs;
+                return MapToDTOList(objectives);
             }
             catch (Exception ex)
             {
@@ -64,14 +54,7 @@ namespace Business
                     throw new EntityNotFoundException("Objective", id);
                 }
 
-                return new ObjectiveDTO
-                {
-                    Id = objective.Id,
-                    ObjectiveDescription = objective.ObjectiveDescription,
-                    Innovation = objective.Innovation,
-                    Results = objective.Results,
-                    Sustainability = objective.Sustainability
-                };
+                return MapToDTO(objective);
             }
             catch (Exception ex)
             {
@@ -87,25 +70,10 @@ namespace Business
             {
                 ValidateObjective(objectiveDTO);
 
-                var objective = new Objective
-                {
-                    Id = objectiveDTO.Id,
-                    ObjectiveDescription = objectiveDTO.ObjectiveDescription,
-                    Innovation = objectiveDTO.Innovation,
-                    Results = objectiveDTO.Results,
-                    Sustainability = objectiveDTO.Sustainability,
-                };
-
+                var objective = MapToEntity(objectiveDTO);
                 var createdObjective = await _objectiveData.CreateAsync(objective);
 
-                return new ObjectiveDTO
-                {
-                    Id = createdObjective.Id,
-                    ObjectiveDescription = createdObjective.ObjectiveDescription,
-                    Innovation = createdObjective.Innovation,
-                    Results = createdObjective.Results,
-                    Sustainability = createdObjective.Sustainability
-                };
+                return MapToDTO(createdObjective);
             }
             catch (Exception ex)
             {
@@ -124,9 +92,48 @@ namespace Business
 
             if (string.IsNullOrWhiteSpace(objectiveDTO.ObjectiveDescription))
             {
-                _logger.LogWarning("Se intentó crear/actualizar un objetivo con Name vacío");
-                throw new Utilities.Exceptions.ValidationException("Name", "El Name del objetivo es obligatorio");
+                _logger.LogWarning("Se intentó crear/actualizar un objetivo con ObjectiveDescription vacío");
+                throw new Utilities.Exceptions.ValidationException("ObjectiveDescription", "El ObjectiveDescription del objetivo es obligatorio");
             }
+        }
+
+        // Método para mapear de Objective a ObjectiveDTO
+        private ObjectiveDTO MapToDTO(Objective objective)
+        {
+            return new ObjectiveDTO
+            {
+                Id = objective.Id,
+                ObjectiveDescription = objective.ObjectiveDescription,
+                Innovation = objective.Innovation,
+                Results = objective.Results,
+                Sustainability = objective.Sustainability
+            };
+        }
+
+        // Método para mapear de ObjectiveDTO a Objective
+        private Objective MapToEntity(ObjectiveDTO objectiveDTO)
+        {
+            return new Objective
+            {
+                Id = objectiveDTO.Id,
+                ObjectiveDescription = objectiveDTO.ObjectiveDescription,
+                Innovation = objectiveDTO.Innovation,
+                Results = objectiveDTO.Results,
+                Sustainability = objectiveDTO.Sustainability
+            };
+        }
+
+        // Método para mapear una lista de Objective a una lista de ObjectiveDTO
+        private IEnumerable<ObjectiveDTO> MapToDTOList(IEnumerable<Objective> objectives)
+        {
+            var objectivesDTO = new List<ObjectiveDTO>();
+            foreach (var objective in objectives)
+            {
+                objectivesDTO.Add(MapToDTO(objective));
+            }
+            return objectivesDTO;
         }
     }
 }
+
+

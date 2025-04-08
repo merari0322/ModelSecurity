@@ -26,7 +26,7 @@
           <EntitySet Name="Experiencias" EntityType="Model1.Experience" />
           <EntitySet Name="Objectivos" EntityType="Model1.Objective" />
           <EntitySet Name="Experiencia_Grupo_Poblacionals" EntityType="Model1.ExperiencePopulation" />
-          <EntitySet Name="GrupoPoblacionals" EntityType="Model1.PopulationGroup" />
+          <EntitySet Name="GrupoPoblacionals" EntityType="Model1.PopulationGrade" />
           <EntitySet Name="Verificacions" EntityType="Model1.verification" />
           <EntitySet Name="ExperienciaGrados" EntityType="Model1.ExperienceGrade" />
           <EntitySet Name="Grados" EntityType="Model1.Grade" />
@@ -87,14 +87,6 @@
             <End Role="Experience" EntitySet="Experiencias" />
             <End Role="Objective" EntitySet="Objectivos" />
           </AssociationSet>
-          <AssociationSet Name="ExperienciaExperienciaGrupoPoblacional" Association="Model1.ExperienciaExperienciaGrupoPoblacional">
-            <End Role="Experience" EntitySet="Experiencias" />
-            <End Role="ExperiencePopulationGroup" EntitySet="Experiencia_Grupo_Poblacionals" />
-          </AssociationSet>
-          <AssociationSet Name="ExperienciaGrupoPoblacionalGrupoPoblacional" Association="Model1.ExperienciaGrupoPoblacionalGrupoPoblacional">
-            <End Role="ExperiencePopulationGroup" EntitySet="Experiencia_Grupo_Poblacionals" />
-            <End Role="PopulationGroup" EntitySet="GrupoPoblacionals" />
-          </AssociationSet>
           <AssociationSet Name="ExperienciaVerificacion" Association="Model1.ExperienciaVerificacion">
             <End Role="Experience" EntitySet="Experiencias" />
             <End Role="verification" EntitySet="Verificacions" />
@@ -108,10 +100,6 @@
             <End EntitySet="ExperienciaGrados" Role="ExperienceGrade" />
           </AssociationSet>
           <AssociationSet Name="InstitucionExperiencia" Association="Model1.InstitucionExperiencia">
-            <End Role="Institution" EntitySet="Institucions" />
-            <End Role="Experience" EntitySet="Experiencias" />
-          </AssociationSet>
-          <AssociationSet Name="InstitucionExperiencia1" Association="Model1.InstitucionExperiencia1">
             <End Role="Institution" EntitySet="Institucions" />
             <End Role="Experience" EntitySet="Experiencias" />
           </AssociationSet>
@@ -136,46 +124,54 @@
             <End Role="User" EntitySet="Usuarios" />
             <End Role="Person" EntitySet="PersonSet" />
           </AssociationSet>
+          <AssociationSet Name="ExperienceExperiencePopulation" Association="Model1.ExperienceExperiencePopulation">
+            <End Role="Experience" EntitySet="Experiencias" />
+            <End Role="ExperiencePopulation" EntitySet="Experiencia_Grupo_Poblacionals" />
+          </AssociationSet>
+          <AssociationSet Name="PopulationGradeExperiencePopulation" Association="Model1.PopulationGradeExperiencePopulation">
+            <End Role="PopulationGrade" EntitySet="GrupoPoblacionals" />
+            <End Role="ExperiencePopulation" EntitySet="Experiencia_Grupo_Poblacionals" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" />
-          <Property Name="email" Type="String" Nullable="false" />
-          <Property Name="password" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" />
           <NavigationProperty Name="IdUserRol" Relationship="Model1.UsuarioUsuario_Rol" FromRole="Usuario" ToRole="UsuarioRol" />
           <NavigationProperty Name="IdHistoryExperience" Relationship="Model1.UsuarioHistorial_Experiencia" FromRole="Usuario" ToRole="HistoryExperience" />
           <NavigationProperty Name="IdEvaluation" Relationship="Model1.UsuarioEvaluacion" FromRole="Usuario" ToRole="Evaluation" />
           <NavigationProperty Name="IdExperience" Relationship="Model1.UsuarioExperiencia" FromRole="Usuario" ToRole="Experience" />
           <NavigationProperty Name="IdUserInstitution" Relationship="Model1.UsuarioInstitucionUsuario" FromRole="Usuario" ToRole="UserInstitution" />
           <NavigationProperty Name="Person" Relationship="Model1.UserPerson" FromRole="User" ToRole="Person" />
-          <Property Name="active" Type="String" Nullable="false" />
-          <Property Name="deleteAt" Type="String" Nullable="false" />
-          <Property Name="createAt" Type="String" Nullable="false" />
+          <Property Name="Active" Type="String" Nullable="false" />
+          <Property Name="DeleteAt" Type="String" Nullable="false" />
+          <Property Name="CreateAt" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="typeRol" Type="String" Nullable="false" />
+          <Property Name="TypeRol" Type="String" Nullable="false" />
           <NavigationProperty Name="IdUser_Rol" Relationship="Model1.RolUsuario_Rol" FromRole="Rol1" ToRole="UsuarioRol" />
           <NavigationProperty Name="IdRolPermission" Relationship="Model1.RolRol_Permiso" FromRole="Rol1" ToRole="RolPermission" />
-          <Property Name="code" Type="String" Nullable="false" />
-          <Property Name="name" Type="String" Nullable="false" />
-          <Property Name="active" Type="String" Nullable="false" />
-          <Property Name="deleteAt" Type="String" Nullable="false" />
-          <Property Name="createAt" Type="String" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="DeleteAt" Type="String" Nullable="false" />
+          <Property Name="CreateAt" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="RolPermission">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="rolId1" Type="Int32" Nullable="false" />
-          <Property Name="permissionId1" Type="Int32" Nullable="false" />
+          <Property Name="RolId" Type="Int32" Nullable="false" />
+          <Property Name="PermissionId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="IdRol" Relationship="Model1.RolRol_Permiso" FromRole="RolPermission" ToRole="Rol1" />
           <NavigationProperty Name="IdPermission" Relationship="Model1.PermisoRol_Permiso" FromRole="RolPermission" ToRole="Permission" />
         </EntityType>
@@ -184,19 +180,19 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="userId1" Type="Int32" Nullable="false" />
-          <Property Name="rolId1" Type="Int32" Nullable="false" />
+          <Property Name="UserId1" Type="Int32" Nullable="false" />
+          <Property Name="RolId1" Type="Int32" Nullable="false" />
           <NavigationProperty Name="IdUser" Relationship="Model1.UsuarioUsuario_Rol" FromRole="UsuarioRol" ToRole="Usuario" />
           <NavigationProperty Name="IdRol" Relationship="Model1.RolUsuario_Rol" FromRole="UsuarioRol" ToRole="Rol1" />
-          <Property Name="deleteAt" Type="String" Nullable="false" />
-          <Property Name="createAt" Type="String" Nullable="false" />
+          <Property Name="DeleteAt" Type="String" Nullable="false" />
+          <Property Name="CreateAt" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="Permission">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="permissiontype" Type="String" Nullable="false" />
+          <Property Name="PermissionType" Type="String" Nullable="false" />
           <NavigationProperty Name="IdRolPermission" Relationship="Model1.PermisoRol_Permiso" FromRole="Permission" ToRole="RolPermission" />
         </EntityType>
         <EntityType Name="HistoryExperience">
@@ -204,23 +200,23 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="action" Type="String" Nullable="false" />
-          <Property Name="dateTime" Type="DateTime" Nullable="false" />
-          <Property Name="userId1" Type="Int32" Nullable="false" />
+          <Property Name="Action" Type="String" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" />
+          <Property Name="UserId1" Type="Int32" Nullable="false" />
           <NavigationProperty Name="IdUser" Relationship="Model1.UsuarioHistorial_Experiencia" FromRole="HistoryExperience" ToRole="Usuario" />
           <NavigationProperty Name="IdState" Relationship="Model1.EstadoHistorial_Experiencia" FromRole="HistoryExperience" ToRole="State" />
-          <Property Name="tableName" Type="String" Nullable="false" />
-          <Property Name="userId" Type="String" Nullable="false" />
-          <Property Name="observation" Type="String" Nullable="false" />
-          <Property Name="afectedId" Type="String" Nullable="false" />
-          <Property Name="active" Type="String" Nullable="false" />
+          <Property Name="TableName" Type="String" Nullable="false" />
+          <Property Name="UserId" Type="String" Nullable="false" />
+          <Property Name="Observation" Type="String" Nullable="false" />
+          <Property Name="AfectedId" Type="String" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="State">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
           <NavigationProperty Name="IdHistoryExperience" Relationship="Model1.EstadoHistorial_Experiencia" FromRole="State" ToRole="HistoryExperience" />
           <NavigationProperty Name="IdEvaluation" Relationship="Model1.EvaluacionEstado" FromRole="State" ToRole="Evaluation" />
         </EntityType>
@@ -229,11 +225,11 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="typeEvaluation" Type="String" Nullable="false" />
-          <Property Name="comments" Type="String" Nullable="false" />
-          <Property Name="dateTime" Type="String" Nullable="false" />
-          <Property Name="userd1" Type="Int32" Nullable="false" />
-          <Property Name="experienceId1" Type="Int32" Nullable="false" />
+          <Property Name="TypeEvaluation" Type="String" Nullable="false" />
+          <Property Name="Comments" Type="String" Nullable="false" />
+          <Property Name="DateTime" Type="String" Nullable="false" />
+          <Property Name="Userd1" Type="Int32" Nullable="false" />
+          <Property Name="ExperienceId1" Type="Int32" Nullable="false" />
           <NavigationProperty Name="IdUser" Relationship="Model1.UsuarioEvaluacion" FromRole="Evaluation" ToRole="Usuario" />
           <NavigationProperty Name="IdState" Relationship="Model1.EvaluacionEstado" FromRole="Evaluation" ToRole="State" />
           <NavigationProperty Name="IdEvaluationCriteria" Relationship="Model1.EvaluacionEvaluacion_Criterio" FromRole="Evaluation" ToRole="EvaluationCriteria" />
@@ -243,8 +239,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="score" Type="String" Nullable="false" />
-          <Property Name="evaluationId" Type="Int32" Nullable="false" />
+          <Property Name="Score" Type="String" Nullable="false" />
+          <Property Name="EvaluationId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="IdEvaluation" Relationship="Model1.EvaluacionEvaluacion_Criterio" FromRole="EvaluationCriteria" ToRole="Evaluation" />
           <NavigationProperty Name="IdCriteria" Relationship="Model1.Evaluacion_CriterioCriterio" FromRole="EvaluationCriteria" ToRole="Criteria" />
         </EntityType>
@@ -253,7 +249,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
           <NavigationProperty Name="IdEvaluation_Criteria" Relationship="Model1.Evaluacion_CriterioCriterio" FromRole="Criteria" ToRole="EvaluationCriteria" />
         </EntityType>
         <EntityType Name="Experience">
@@ -261,41 +257,36 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nameExperiences" Type="String" Nullable="false" />
-          <Property Name="dateTime" Type="String" Nullable="false" />
-          <Property Name="durationDays" Type="Time" Nullable="false" />
-          <Property Name="durationMonths" Type="String" Nullable="false" />
-          <Property Name="durationYears" Type="String" Nullable="false" />
-          <Property Name="summary" Type="String" Nullable="false" />
-          <Property Name="methodologies" Type="String" Nullable="false" />
-          <Property Name="transfer" Type="String" Nullable="false" />
-          <Property Name="dateRegistration" Type="String" Nullable="false" />
-          <Property Name="userId1" Type="Int32" Nullable="false" />
-          <Property Name="institutionId1" Type="Int32" Nullable="false" />
+          <Property Name="NameExperiences" Type="String" Nullable="false" />
+          <Property Name="Summary" Type="String" Nullable="false" />
+          <Property Name="Methodologies" Type="String" Nullable="false" />
+          <Property Name="Transfer" Type="String" Nullable="false" />
+          <Property Name="DateRegistration" Type="String" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="InstitutionId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="IdUser" Relationship="Model1.UsuarioExperiencia" FromRole="Experience" ToRole="Usuario" />
           <NavigationProperty Name="IdObjective" Relationship="Model1.ExperienciaObjectivo" FromRole="Experience" ToRole="Objective" />
-          <NavigationProperty Name="IdExperiencePopulationGroup" Relationship="Model1.ExperienciaExperienciaGrupoPoblacional" FromRole="Experience" ToRole="ExperiencePopulationGroup" />
           <NavigationProperty Name="Idverification" Relationship="Model1.ExperienciaVerificacion" FromRole="Experience" ToRole="verification" />
           <NavigationProperty Name="IdExperienceGrade" Relationship="Model1.ExperienciaGradoExperiencia" FromRole="Experience" ToRole="ExperienceGrade" />
           <NavigationProperty Name="IdInstitution" Relationship="Model1.InstitucionExperiencia" FromRole="Experience" ToRole="Institution" />
-          <NavigationProperty Name="Institution" Relationship="Model1.InstitucionExperiencia1" FromRole="Experience" ToRole="Institution" />
           <NavigationProperty Name="IdDocument" Relationship="Model1.DocumentoExperiencia" FromRole="Experience" ToRole="Document" />
           <NavigationProperty Name="IdExperienceLineThematic" Relationship="Model1.ExperienciaExperienciaLineaTematica" FromRole="Experience" ToRole="ExperienceLineThematic" />
-          <Property Name="code" Type="String" Nullable="false" />
-          <Property Name="active" Type="String" Nullable="false" />
-          <Property Name="deleteAt" Type="String" Nullable="false" />
-          <Property Name="createAt" Type="String" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" />
+          <Property Name="Active" Type="String" Nullable="false" />
+          <Property Name="DeleteAt" Type="String" Nullable="false" />
+          <Property Name="CreateAt" Type="String" Nullable="false" />
+          <NavigationProperty Name="ExperiencePopulation" Relationship="Model1.ExperienceExperiencePopulation" FromRole="Experience" ToRole="ExperiencePopulation" />
         </EntityType>
         <EntityType Name="Objective">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="objectiveDescription" Type="String" Nullable="false" />
-          <Property Name="innovation" Type="String" Nullable="false" />
-          <Property Name="results" Type="String" Nullable="false" />
-          <Property Name="sustainability" Type="String" Nullable="false" />
-          <Property Name="experienceId1" Type="Int32" Nullable="false" />
+          <Property Name="ObjectiveDescription" Type="String" Nullable="false" />
+          <Property Name="Innovation" Type="String" Nullable="false" />
+          <Property Name="Results" Type="String" Nullable="false" />
+          <Property Name="Sustainability" Type="String" Nullable="false" />
+          <Property Name="ExperienceId1" Type="Int32" Nullable="false" />
           <NavigationProperty Name="IdExperience" Relationship="Model1.ExperienciaObjectivo" FromRole="Objective" ToRole="Experience" />
         </EntityType>
         <EntityType Name="ExperiencePopulation">
@@ -303,25 +294,27 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="IdExperience" Relationship="Model1.ExperienciaExperienciaGrupoPoblacional" FromRole="ExperiencePopulationGroup" ToRole="Experience" />
-          <NavigationProperty Name="IdPopulationGroup" Relationship="Model1.ExperienciaGrupoPoblacionalGrupoPoblacional" FromRole="ExperiencePopulationGroup" ToRole="PopulationGroup" />
-          <Property Name="Namw" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Experience" Relationship="Model1.ExperienceExperiencePopulation" FromRole="ExperiencePopulation" ToRole="Experience" />
+          <Property Name="ExperienceId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PopulationGrade" Relationship="Model1.PopulationGradeExperiencePopulation" FromRole="ExperiencePopulation" ToRole="PopulationGrade" />
+          <Property Name="PopulationGradeId" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="PopulationGroup">
+        <EntityType Name="PopulationGrade">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" />
-          <NavigationProperty Name="IdExperiencePopulationGroup" Relationship="Model1.ExperienciaGrupoPoblacionalGrupoPoblacional" FromRole="PopulationGroup" ToRole="ExperiencePopulationGroup" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="ExperiencePopulation" Relationship="Model1.PopulationGradeExperiencePopulation" FromRole="PopulationGrade" ToRole="ExperiencePopulation" />
         </EntityType>
         <EntityType Name="verification">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" />
-          <Property Name="description" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
           <NavigationProperty Name="IdExperience" Relationship="Model1.ExperienciaVerificacion" FromRole="verification" ToRole="Experience" />
         </EntityType>
         <EntityType Name="ExperienceGrade">
@@ -329,8 +322,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="gradeId1" Type="Int32" Nullable="false" />
-          <Property Name="gradeId2" Type="Int32" Nullable="false" />
+          <Property Name="GradeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="IdExperience" Relationship="Model1.ExperienciaGradoExperiencia" FromRole="ExperienceGrade" ToRole="Experience" />
           <NavigationProperty Name="IdGrade" Relationship="Model1.GradoExperienciaGrado" FromRole="ExperienceGrade" ToRole="Grade" />
         </EntityType>
@@ -339,7 +331,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
           <NavigationProperty Name="IdExperienceGrade" Relationship="Model1.GradoExperienciaGrado" FromRole="Grade" ToRole="ExperienceGrade" />
         </EntityType>
         <EntityType Name="Institution">
@@ -347,14 +339,13 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" />
-          <Property Name="address" Type="String" Nullable="false" />
-          <Property Name="phone" Type="String" Nullable="false" />
-          <Property Name="emailInstitution" Type="String" Nullable="false" />
-          <Property Name="department" Type="String" Nullable="false" />
-          <Property Name="commune" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Address" Type="String" Nullable="false" />
+          <Property Name="Phone" Type="String" Nullable="false" />
+          <Property Name="EmailInstitution" Type="String" Nullable="false" />
+          <Property Name="Department" Type="String" Nullable="false" />
+          <Property Name="Commune" Type="String" Nullable="false" />
           <NavigationProperty Name="IdExperience" Relationship="Model1.InstitucionExperiencia" FromRole="Institution" ToRole="Experience" />
-          <NavigationProperty Name="Experience" Relationship="Model1.InstitucionExperiencia1" FromRole="Institution" ToRole="Experience" />
           <NavigationProperty Name="IdUserInstitution" Relationship="Model1.UsuarioInstitucionInstitucion" FromRole="Institution" ToRole="UserInstitution" />
         </EntityType>
         <EntityType Name="Document">
@@ -362,8 +353,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="url" Type="String" Nullable="false" />
-          <Property Name="name" Type="String" Nullable="false" />
+          <Property Name="Url" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
           <NavigationProperty Name="IdExperience" Relationship="Model1.DocumentoExperiencia" FromRole="Document" ToRole="Experience" />
         </EntityType>
         <EntityType Name="ExperienceLineThematic">
@@ -371,23 +362,23 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="lineThematicId1" Type="Int32" Nullable="false" />
+          <Property Name="LineThematicId1" Type="Int32" Nullable="false" />
           <NavigationProperty Name="IdExperience" Relationship="Model1.ExperienciaExperienciaLineaTematica" FromRole="ExperienceLineThematic" ToRole="Experience" />
           <NavigationProperty Name="IdLineThematic" Relationship="Model1.LineaTematicaExperienciaLineaTematica" FromRole="ExperienceLineThematic" ToRole="LineThematic" />
-          <Property Name="deleteAt" Type="String" Nullable="false" />
-          <Property Name="createAt" Type="String" Nullable="false" />
+          <Property Name="DeleteAt" Type="String" Nullable="false" />
+          <Property Name="CreateAt" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="LineThematic">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
           <NavigationProperty Name="IdExperienceLineThematic" Relationship="Model1.LineaTematicaExperienciaLineaTematica" FromRole="LineThematic" ToRole="ExperienceLineThematic" />
-          <Property Name="code" Type="String" Nullable="false" />
-          <Property Name="active" Type="String" Nullable="false" />
-          <Property Name="deleteAt" Type="String" Nullable="false" />
-          <Property Name="createAt" Type="String" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" />
+          <Property Name="Active" Type="String" Nullable="false" />
+          <Property Name="DeleteAt" Type="String" Nullable="false" />
+          <Property Name="CreateAt" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="UserInstitution">
           <Key>
@@ -405,7 +396,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="UsuarioRol">
-              <PropertyRef Name="userId1" />
+              <PropertyRef Name="UserId1" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -417,7 +408,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="HistoryExperience">
-              <PropertyRef Name="userId1" />
+              <PropertyRef Name="UserId1" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -429,7 +420,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Evaluation">
-              <PropertyRef Name="userd1" />
+              <PropertyRef Name="Userd1" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -441,7 +432,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Experience">
-              <PropertyRef Name="userId1" />
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -457,7 +448,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="UsuarioRol">
-              <PropertyRef Name="rolId1" />
+              <PropertyRef Name="RolId1" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -469,7 +460,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="RolPermission">
-              <PropertyRef Name="rolId1" />
+              <PropertyRef Name="RolId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -481,7 +472,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="RolPermission">
-              <PropertyRef Name="permissionId1" />
+              <PropertyRef Name="PermissionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -501,7 +492,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="EvaluationCriteria">
-              <PropertyRef Name="evaluationId" />
+              <PropertyRef Name="EvaluationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -517,17 +508,9 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Objective">
-              <PropertyRef Name="experienceId1" />
+              <PropertyRef Name="ExperienceId1" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
-        <Association Name="ExperienciaExperienciaGrupoPoblacional">
-          <End Type="Model1.Experience" Role="Experience" Multiplicity="1" />
-          <End Type="Model1.ExperiencePopulation" Role="ExperiencePopulationGroup" Multiplicity="*" />
-        </Association>
-        <Association Name="ExperienciaGrupoPoblacionalGrupoPoblacional">
-          <End Type="Model1.ExperiencePopulation" Role="ExperiencePopulationGroup" Multiplicity="*" />
-          <End Type="Model1.PopulationGroup" Role="PopulationGroup" Multiplicity="1" />
         </Association>
         <Association Name="ExperienciaVerificacion">
           <End Type="Model1.Experience" Role="Experience" Multiplicity="1" />
@@ -557,13 +540,9 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Experience">
-              <PropertyRef Name="institutionId1" />
+              <PropertyRef Name="InstitutionId" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
-        <Association Name="InstitucionExperiencia1">
-          <End Type="Model1.Institution" Role="Institution" Multiplicity="1" />
-          <End Type="Model1.Experience" Role="Experience" Multiplicity="*" />
         </Association>
         <Association Name="UsuarioInstitucionInstitucion">
           <End Type="Model1.UserInstitution" Role="UserInstitution" Multiplicity="*" />
@@ -585,7 +564,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ExperienceLineThematic">
-              <PropertyRef Name="lineThematicId1" />
+              <PropertyRef Name="LineThematicId1" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -594,17 +573,41 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" />
-          <Property Name="email" Type="String" Nullable="false" />
-          <Property Name="phone" Type="String" Nullable="false" />
-          <Property Name="active" Type="Boolean" Nullable="false" />
-          <Property Name="deleteAt" Type="DateTime" Nullable="false" />
-          <Property Name="createAt" Type="DateTime" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <Property Name="Phone" Type="String" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="DeleteAt" Type="DateTime" Nullable="false" />
+          <Property Name="CreateAt" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Model1.UserPerson" FromRole="Person" ToRole="User" />
         </EntityType>
         <Association Name="UserPerson">
           <End Type="Model1.User" Role="User" Multiplicity="1" />
           <End Type="Model1.Person" Role="Person" Multiplicity="1" />
+        </Association>
+        <Association Name="ExperienceExperiencePopulation">
+          <End Type="Model1.Experience" Role="Experience" Multiplicity="1" />
+          <End Type="Model1.ExperiencePopulation" Role="ExperiencePopulation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Experience">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExperiencePopulation">
+              <PropertyRef Name="ExperienceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PopulationGradeExperiencePopulation">
+          <End Type="Model1.PopulationGrade" Role="PopulationGrade" Multiplicity="1" />
+          <End Type="Model1.ExperiencePopulation" Role="ExperiencePopulation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PopulationGrade">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExperiencePopulation">
+              <PropertyRef Name="PopulationGradeId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -634,32 +637,38 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bd15c8cd4f5e4f9890551bc5e1eacabc" Name="Diagram1" ZoomLevel="80">
-        <EntityTypeShape EntityType="Model1.User" Width="1.5" PointX="3" PointY="13.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.Rol" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.RolPermission" Width="1.5" PointX="5.25" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.UserRol" Width="1.5" PointX="5.25" PointY="14" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.Permission" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.HistoryExperience" Width="1.5" PointX="9.75" PointY="15.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.State" Width="1.5" PointX="7.5" PointY="18.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.Evaluation" Width="1.5" PointX="5.25" PointY="19.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.EvaluationCriteria" Width="1.5" PointX="7.5" PointY="20.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.Criteria" Width="1.5" PointX="9.75" PointY="21" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.Experience" Width="1.5" PointX="8.25" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.Objective" Width="1.5" PointX="12" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.ExperiencePopulation" Width="1.5" PointX="10.5" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.PopulationGroup" Width="1.5" PointX="12.75" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.verification" Width="1.5" PointX="10.5" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.ExperienceGrade" Width="1.5" PointX="6" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.Grade" Width="1.5" PointX="3.75" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.Institution" Width="1.5" PointX="3" PointY="19.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.Document" Width="1.5" PointX="6" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.ExperienceLineThematic" Width="1.5" PointX="12.5" PointY="13" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.LineThematic" Width="1.5" PointX="10.25" PointY="23.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.UserInstitution" Width="1.5" PointX="0.75" PointY="16.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.Person" Width="1.5" PointX="5.375" PointY="23.875" IsExpanded="true" />
+      <Diagram DiagramId="bd15c8cd4f5e4f9890551bc5e1eacabc" Name="Diagram1" ZoomLevel="88">
+        <EntityTypeShape EntityType="Model1.User" Width="1.5" PointX="6.375" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Rol" Width="1.5" PointX="0.5" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.RolPermission" Width="1.5" PointX="2.875" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.UserRol" Width="1.5" PointX="0.5" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Permission" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.HistoryExperience" Width="1.5" PointX="12.75" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.State" Width="1.5" PointX="0.5" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Evaluation" Width="1.5" PointX="4.5" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.EvaluationCriteria" Width="1.5" PointX="4.75" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Criteria" Width="1.5" PointX="8.125" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Experience" Width="1.5" PointX="10" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Objective" Width="1.5" PointX="12.625" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.ExperiencePopulation" Width="1.5" PointX="18.625" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.PopulationGrade" Width="1.5" PointX="21.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.verification" Width="1.5" PointX="13.125" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.ExperienceGrade" Width="1.5" PointX="15.375" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Grade" Width="1.5" PointX="18.375" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Institution" Width="1.5" PointX="8.5" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Document" Width="1.5" PointX="15.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.ExperienceLineThematic" Width="1.5" PointX="17" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.LineThematic" Width="1.5" PointX="19.625" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.UserInstitution" Width="1.5" PointX="5.625" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Person" Width="1.5" PointX="3.5" PointY="5.125" IsExpanded="true" />
         <AssociationConnector Association="Model1.UsuarioUsuario_Rol" ManuallyRouted="false" />
-        <AssociationConnector Association="Model1.UsuarioHistorial_Experiencia" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.UsuarioHistorial_Experiencia" ManuallyRouted="true" >
+          <ConnectorPoint PointX="7.875" PointY="9.2049791500023623" />
+          <ConnectorPoint PointX="9.75" PointY="9.2049791500023623" />
+          <ConnectorPoint PointX="9.75" PointY="12.444256514572533" />
+          <ConnectorPoint PointX="13.5" PointY="12.444256514572533" />
+          <ConnectorPoint PointX="13.5" PointY="15.625" />
+        </AssociationConnector>
         <AssociationConnector Association="Model1.UsuarioEvaluacion" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.UsuarioExperiencia" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.UsuarioInstitucionUsuario" ManuallyRouted="false" />
@@ -671,18 +680,17 @@
         <AssociationConnector Association="Model1.EvaluacionEvaluacion_Criterio" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.Evaluacion_CriterioCriterio" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.ExperienciaObjectivo" ManuallyRouted="false" />
-        <AssociationConnector Association="Model1.ExperienciaExperienciaGrupoPoblacional" ManuallyRouted="false" />
-        <AssociationConnector Association="Model1.ExperienciaGrupoPoblacionalGrupoPoblacional" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.ExperienciaVerificacion" ManuallyRouted="false" />
         <AssociationConnector ManuallyRouted="false" Association="Model1.ExperienciaGradoExperiencia" />
         <AssociationConnector ManuallyRouted="false" Association="Model1.GradoExperienciaGrado" />
         <AssociationConnector Association="Model1.InstitucionExperiencia" ManuallyRouted="false" />
-        <AssociationConnector Association="Model1.InstitucionExperiencia1" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.UsuarioInstitucionInstitucion" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.DocumentoExperiencia" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.ExperienciaExperienciaLineaTematica" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.LineaTematicaExperienciaLineaTematica" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.UserPerson" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.ExperienceExperiencePopulation" />
+        <AssociationConnector Association="Model1.PopulationGradeExperiencePopulation" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

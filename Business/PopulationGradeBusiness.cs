@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using Utilities.Exceptions;
 
-
 namespace Business
 {
     /// <summary>
@@ -28,11 +27,7 @@ namespace Business
             try
             {
                 var grades = await _populationGradeData.GetAllAsync();
-                return grades.Select(grade => new PopulationGradeDTO
-                {
-                    Id = grade.Id,
-                    Name = grade.Name
-                }).ToList();
+                return MapToDTOList(grades);
             }
             catch (Exception ex)
             {
@@ -59,11 +54,7 @@ namespace Business
                     throw new EntityNotFoundException("PopulationGrade", id);
                 }
 
-                return new PopulationGradeDTO
-                {
-                    Id = grade.Id,
-                    Name = grade.Name
-                };
+                return MapToDTO(grade);
             }
             catch (Exception ex)
             {
@@ -79,18 +70,10 @@ namespace Business
             {
                 ValidatePopulationGrade(gradeDTO);
 
-                var grade = new PopulationGrade
-                {
-                    Name = gradeDTO.Name,
-                };
-
+                var grade = MapToEntity(gradeDTO);
                 var createdGrade = await _populationGradeData.CreateAsync(grade);
 
-                return new PopulationGradeDTO
-                {
-                    Id = createdGrade.Id,
-                    Name = createdGrade.Name
-                };
+                return MapToDTO(createdGrade);
             }
             catch (Exception ex)
             {
@@ -113,5 +96,38 @@ namespace Business
                 throw new Utilities.Exceptions.ValidationException("Name", "El Name del grado de población es obligatorio");
             }
         }
+
+        // Método para mapear de PopulationGrade a PopulationGradeDTO
+        private PopulationGradeDTO MapToDTO(PopulationGrade grade)
+        {
+            return new PopulationGradeDTO
+            {
+                Id = grade.Id,
+                Name = grade.Name
+            };
+        }
+
+        // Método para mapear de PopulationGradeDTO a PopulationGrade
+        private PopulationGrade MapToEntity(PopulationGradeDTO gradeDTO)
+        {
+            return new PopulationGrade
+            {
+                Id = gradeDTO.Id,
+                Name = gradeDTO.Name
+            };
+        }
+
+        // Método para mapear una lista de PopulationGrade a una lista de PopulationGradeDTO
+        private IEnumerable<PopulationGradeDTO> MapToDTOList(IEnumerable<PopulationGrade> grades)
+        {
+            var gradesDTO = new List<PopulationGradeDTO>();
+            foreach (var grade in grades)
+            {
+                gradesDTO.Add(MapToDTO(grade));
+            }
+            return gradesDTO;
+        }
     }
 }
+
+

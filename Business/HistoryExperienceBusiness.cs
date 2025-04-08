@@ -26,13 +26,7 @@ namespace Business
             try
             {
                 var histories = await _historyExperienceData.GetAllAsync();
-                return histories.Select(history => new HistoryExperienceDTO
-                {
-                    Id = history.Id,
-                    ExperienceId = history.ExperienceId,
-                    UserId = history.UserId,
-                    Action = history.Action,
-                }).ToList();
+                return MapToDTOList(histories);
             }
             catch (Exception ex)
             {
@@ -59,13 +53,7 @@ namespace Business
                     throw new EntityNotFoundException("HistoryExperience", id);
                 }
 
-                return new HistoryExperienceDTO
-                {
-                    Id = history.Id,
-                    ExperienceId = history.ExperienceId,
-                    UserId = history.UserId,
-                    Action = history.Action,
-                };
+                return MapToDTO(history);
             }
             catch (Exception ex)
             {
@@ -81,22 +69,10 @@ namespace Business
             {
                 ValidateHistoryExperience(historyDTO);
 
-                var history = new HistoryExperience
-                {
-                    ExperienceId = historyDTO.ExperienceId,
-                    UserId = historyDTO.UserId,
-                    Action = historyDTO.Action,
-                };
-
+                var history = MapToEntity(historyDTO);
                 var createdHistory = await _historyExperienceData.CreateAsync(history);
 
-                return new HistoryExperienceDTO
-                {
-                    Id = createdHistory.Id,
-                    ExperienceId = createdHistory.ExperienceId,
-                    UserId = createdHistory.UserId,
-                    Action = createdHistory.Action,
-                };
+                return MapToDTO(createdHistory);
             }
             catch (Exception ex)
             {
@@ -113,12 +89,48 @@ namespace Business
                 throw new Utilities.Exceptions.ValidationException("El objeto historial de experiencia no puede ser nulo");
             }
 
-            if (string.IsNullOrWhiteSpace(historyDTO.Name))
+            if (string.IsNullOrWhiteSpace(historyDTO.Action))
             {
-                _logger.LogWarning("Se intentó registrar un historial de experiencia con ExperienceId inválido");
-                throw new Utilities.Exceptions.ValidationException("ExperienceId", "El ExperienceId debe ser mayor que cero");
+                _logger.LogWarning("Se intentó registrar un historial de experiencia con Action vacío");
+                throw new Utilities.Exceptions.ValidationException("Action", "El Action del historial de experiencia es obligatorio");
             }
+        }
 
+        // Método para mapear de HistoryExperience a HistoryExperienceDTO
+        private HistoryExperienceDTO MapToDTO(HistoryExperience history)
+        {
+            return new HistoryExperienceDTO
+            {
+                Id = history.Id,
+                ExperienceId = history.ExperienceId,
+                UserId = history.UserId,
+                Action = history.Action,
+                DateTime = history.DateTime
+            };
+        }
+
+        // Método para mapear de HistoryExperienceDTO a HistoryExperience
+        private HistoryExperience MapToEntity(HistoryExperienceDTO historyDTO)
+        {
+            return new HistoryExperience
+            {
+                Id = historyDTO.Id,
+                ExperienceId = historyDTO.ExperienceId,
+                UserId = historyDTO.UserId,
+                Action = historyDTO.Action,
+                DateTime = historyDTO.DateTime
+            };
+        }
+
+        // Método para mapear una lista de HistoryExperience a una lista de HistoryExperienceDTO
+        private IEnumerable<HistoryExperienceDTO> MapToDTOList(IEnumerable<HistoryExperience> histories)
+        {
+            var historiesDTO = new List<HistoryExperienceDTO>();
+            foreach (var history in histories)
+            {
+                historiesDTO.Add(MapToDTO(history));
+            }
+            return historiesDTO;
         }
     }
 }

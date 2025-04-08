@@ -1,10 +1,12 @@
 ﻿using System.Data;
+using Entity.Model;
 using Dapper;
 using System.Reflection.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
+
 
 namespace Entity.Contexs
 {
@@ -14,6 +16,17 @@ namespace Entity.Contexs
     ///<summary/>
     public class ApplicationDbContext : DbContext
     {
+
+        public DbSet<Criteria> Criteria { get; set; }
+        public DbSet<Model.Document> Document { get; set; }
+        public DbSet<Evaluation> Evaluation { get; set; }
+        public DbSet<Evaluation> EvaluationCriteria { get; set; }
+
+
+
+
+
+
         ///<summary> 
         ///configuracion de la aplicacion 
         ///</summary>

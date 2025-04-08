@@ -10,6 +10,7 @@ namespace Entity.Model
   public  class EvaluationCriteria
     {
         public int Id { get; set; }
+        public string Name { get; set; }= string.Empty;
         public string Score { get; set; } = string.Empty;
 
         public int EvaluationId { get; set; }

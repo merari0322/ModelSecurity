@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using Utilities.Exceptions;
 
-
 namespace Business
 {
     /// <summary>
@@ -29,20 +28,7 @@ namespace Business
             try
             {
                 var userRoles = await _userRolData.GetAllAsync();
-                var userRolesDTO = new List<UserRolDTO>();
-
-                foreach (var userRol in userRoles)
-                {
-                    userRolesDTO.Add(new UserRolDTO
-                    {
-                        Id = userRol.Id,
-                        UserId = userRol.UserId,
-                        RolId = userRol.RolId,
-                    });
-
-                }
-
-                return userRolesDTO;
+                return MapToDTOList(userRoles);
             }
             catch (Exception ex)
             {
@@ -69,12 +55,7 @@ namespace Business
                     throw new EntityNotFoundException("UserRol", id);
                 }
 
-                return new UserRolDTO
-                {
-                    Id = userRol.Id,
-                    UserId = userRol.UserId,
-                    RolId = userRol.RolId,
-                };
+                return MapToDTO(userRol);
             }
             catch (Exception ex)
             {
@@ -84,30 +65,20 @@ namespace Business
         }
 
         // Método para crear un rol de usuario desde un DTO
-        public async Task<UserRolDTO> CreateUserRolAsync(UserRolDTO userRolDto)
+        public async Task<UserRolDTO> CreateUserRolAsync(UserRolDTO userRolDTO)
         {
             try
             {
-                ValidateUserRol(userRolDto);
+                ValidateUserRol(userRolDTO);
 
-                var userRol = new UserRol
-                {
+                var userRol = MapToEntity(userRolDTO);
+                var createdUserRol = await _userRolData.CreateAsync(userRol);
 
-                    UserId = userRolDto.UserId,
-                    RolId = userRolDto.RolId,
-                };
-
-                var userRolCreado = await _userRolData.CreateAsync(userRol);
-
-                return new UserRolDTO
-                {
-                    Id = userRolCreado.Id,
-                    RolId = userRolCreado.RolId,
-                };
+                return MapToDTO(createdUserRol);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al crear nuevo rol de usuario: {UserRolNombre}", userRolDto.RolId.ToString() ?? "null");
+                _logger.LogError(ex, "Error al crear un nuevo rol de usuario: {UserRolName}", userRolDTO?.RolId.ToString() ?? "null");
                 throw new ExternalServiceException("Base de datos", "Error al crear el rol de usuario", ex);
             }
         }
@@ -120,11 +91,48 @@ namespace Business
                 throw new Utilities.Exceptions.ValidationException("El objeto rol de usuario no puede ser nulo");
             }
 
-            if (string.IsNullOrWhiteSpace(userRolDTO.RolId.ToString()))
+            if (userRolDTO.UserId <= 0 || userRolDTO.RolId <= 0)
             {
-                _logger.LogWarning("Se intentó crear/actualizar un rol de usuario con Name vacío");
-                throw new Utilities.Exceptions.ValidationException("Name", "El Name del rol de usuario es obligatorio");
+                _logger.LogWarning("Se intentó crear/actualizar un rol de usuario con valores inválidos");
+                throw new Utilities.Exceptions.ValidationException("UserId/RolId", "Los IDs del usuario y rol deben ser mayores que cero");
             }
+        }
+
+        // Método para mapear de UserRol a UserRolDTO
+        private UserRolDTO MapToDTO(UserRol userRol)
+        {
+            return new UserRolDTO
+            {
+                Id = userRol.Id,
+                UserId = userRol.UserId,
+                RolId = userRol.RolId
+            };
+        }
+
+        // Método para mapear de UserRolDTO a UserRol
+        private UserRol MapToEntity(UserRolDTO userRolDTO)
+        {
+            return new UserRol
+            {
+                Id = userRolDTO.Id,
+                UserId = userRolDTO.UserId,
+                RolId = userRolDTO.RolId
+            };
+        }
+
+        // Método para mapear una lista de UserRol a una lista de UserRolDTO
+        private IEnumerable<UserRolDTO> MapToDTOList(IEnumerable<UserRol> userRoles)
+        {
+            var userRolesDTO = new List<UserRolDTO>();
+            foreach (var userRol in userRoles)
+            {
+                userRolesDTO.Add(MapToDTO(userRol));
+            }
+            return userRolesDTO;
         }
     }
 }
+
+
+
+

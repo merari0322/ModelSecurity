@@ -26,12 +26,7 @@ namespace Business
             try
             {
                 var criteria = await _criteriaData.GetAllAsync();
-                return criteria.Select(criterion => new CriteriaDTO
-                {
-                    Id = criterion.Id,
-                    Name = criterion.Name,
-                  
-                }).ToList();
+                return MapToDTOList(criteria);
             }
             catch (Exception ex)
             {
@@ -58,12 +53,7 @@ namespace Business
                     throw new EntityNotFoundException("Criteria", id);
                 }
 
-                return new CriteriaDTO
-                {
-                    Id = criterion.Id,
-                    Name = criterion.Name,
-                    
-                };
+                return MapToDTO(criterion);
             }
             catch (Exception ex)
             {
@@ -79,20 +69,11 @@ namespace Business
             {
                 ValidateCriteria(CriteriaDTO);
 
-                var criterion = new Criteria
-                {
-                    Name = CriteriaDTO.Name,
-                   
-                };
+                var criterion = MapToEntity(CriteriaDTO);   
 
                 var createdCriterion = await _criteriaData.CreateAsync(criterion);
 
-                return new CriteriaDTO
-                {
-                    Id = createdCriterion.Id,
-                    Name = createdCriterion.Name,
-                  
-                };
+                return MapToDTO(createdCriterion);
             }
             catch (Exception ex)
             {
@@ -115,5 +96,41 @@ namespace Business
                 throw new Utilities.Exceptions.ValidationException("Name", "El Name del criterio es obligatorio");
             }
         }
+
+        //Metodo para mapear el Criteria a CriteriaDTO 
+        private CriteriaDTO MapToDTO(Criteria criteria)
+        {
+            return new CriteriaDTO
+            {
+                Id = criteria.Id,
+                Name = criteria.Name,
+
+            };
+        }
+
+        // Método para mapear del CriteriaaDTO a Criteria
+        private Criteria MapToEntity(CriteriaDTO criteriaDTO)
+        {
+            return new Criteria
+            {
+                Id = criteriaDTO.Id,
+                Name = criteriaDTO.Name,
+
+            };
+        }
+
+        //Metodo para mapear una lista de  Criteria a una lista de CriteriaDTO
+        private IEnumerable<CriteriaDTO> MapToDTOList(IEnumerable<Criteria> criterias)
+        {
+            var criteriaDTOs = new List<CriteriaDTO>();
+            foreach (var criteria in criterias)
+            {
+                criteriaDTOs.Add(MapToDTO(criteria));
+            }
+            return criteriaDTOs;
+
+        }
     }
 }
+
+

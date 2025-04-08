@@ -27,11 +27,7 @@ namespace Business
             try
             {
                 var states = await _stateData.GetAllAsync();
-                return states.Select(state => new StateDTO
-                {
-                    Id = state.Id,
-                    Name = state.Name
-                }).ToList();
+                return MapToDTOList(states);
             }
             catch (Exception ex)
             {
@@ -58,11 +54,7 @@ namespace Business
                     throw new EntityNotFoundException("State", id);
                 }
 
-                return new StateDTO
-                {
-                    Id = state.Id,
-                    Name = state.Name
-                };
+                return MapToDTO(state);
             }
             catch (Exception ex)
             {
@@ -78,18 +70,10 @@ namespace Business
             {
                 ValidateState(stateDTO);
 
-                var state = new State
-                {
-                    Name = stateDTO.Name
-                };
-
+                var state = MapToEntity(stateDTO);
                 var createdState = await _stateData.CreateAsync(state);
 
-                return new StateDTO
-                {
-                    Id = createdState.Id,
-                    Name = createdState.Name
-                };
+                return MapToDTO(createdState);
             }
             catch (Exception ex)
             {
@@ -112,5 +96,39 @@ namespace Business
                 throw new Utilities.Exceptions.ValidationException("Name", "El Name del estado es obligatorio");
             }
         }
+
+        // Método para mapear de State a StateDTO
+        private StateDTO MapToDTO(State state)
+        {
+            return new StateDTO
+            {
+                Id = state.Id,
+                Name = state.Name
+            };
+        }
+
+        // Método para mapear de StateDTO a State
+        private State MapToEntity(StateDTO stateDTO)
+        {
+            return new State
+            {
+                Id = stateDTO.Id,
+                Name = stateDTO.Name
+            };
+        }
+
+        // Método para mapear una lista de State a una lista de StateDTO
+        private IEnumerable<StateDTO> MapToDTOList(IEnumerable<State> states)
+        {
+            var statesDTO = new List<StateDTO>();
+            foreach (var state in states)
+            {
+                statesDTO.Add(MapToDTO(state));
+            }
+            return statesDTO;
+        }
     }
 }
+
+
+

@@ -27,23 +27,8 @@ namespace Business
             try
             {
                 var experiences = await _experienceData.GetAllAsync();
-                var experienceDTOs = new List<ExperienceDTO>();
-
-                foreach (var experience in experiences)
-                {
-                    experienceDTOs.Add(new ExperienceDTO
-                    {
-                        Id = experience.Id,
-                        Summary = experience.Summary,
-                        Methodologies = experience.Methodologies,
-                        Transfe = experience.Transfe,
-                        DataRegistration = experience.DataRegistration,
-                        UserId1 = experience.UserId1,
-                        InstitutionId1 = experience.InstitutionId1
-                    });
-                }
-
-                return experienceDTOs;
+                
+                return MapToDTOList(experiences);
             }
             catch (Exception ex)
             {
@@ -140,6 +125,50 @@ namespace Business
                 _logger.LogWarning("Se intentó crear/actualizar una experiencia con Title vacío");
                 throw new Utilities.Exceptions.ValidationException("Title", "El Title de la experiencia es obligatorio");
             }
+        }
+
+        //metodo para mapear de  Experience a ExperienceDTO
+        private ExperienceDTO MapToDTO(Experience experience)
+        {
+            return new ExperienceDTO
+            {
+                Id = experience.Id,
+                NameExperience = experience.NameExperience,
+                Summary = experience.Summary,
+                Methodologies = experience.Methodologies,
+                Transfe = experience.Transfe,
+                DataRegistration = experience.DataRegistration,
+                UserId1 = experience.UserId1,
+                InstitutionId1 = experience.InstitutionId1
+            };
+        }
+
+        //Metodo para mapear de ExperienceDTO a Experience
+        private Experience MapToEntity(ExperienceDTO experienceDto)
+        {
+            return new Experience
+            {
+                Id = experienceDto.Id,
+                NameExperience = experienceDto.NameExperience,
+                Summary = experienceDto.Summary,
+                Methodologies = experienceDto.Methodologies,
+                Transfe = experienceDto.Transfe,
+                DataRegistration = experienceDto.DataRegistration,
+                UserId1 = experienceDto.UserId1,
+                InstitutionId1 = experienceDto.InstitutionId1
+            };
+        }
+
+        //Metodo para mapear de lista  de Experience a lista de ExperienceDTO
+        // Método para mapear una lista de Rol a una lista de RolDTO
+        private IEnumerable<ExperienceDTO> MapToDTOList(IEnumerable<Experience> experiences)
+        {
+            var experiencesDTO = new List<ExperienceDTO>();
+            foreach (var experience in experiences)
+            {
+                experiencesDTO.Add(MapToDTO(experience));
+            }
+            return experiencesDTO;
         }
     }
 }

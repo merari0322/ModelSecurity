@@ -13,7 +13,5 @@ namespace Entity.DTOs
         public string Name { get; set; } = string.Empty;
         public int ExperienceId { get; set; }
         public Grade GradeId { get; set; } = new Grade();
-        public string Grade1 { get; set; } = string.Empty;
-        public string Grade2 { get; set; } = string.Empty;
     }
 }

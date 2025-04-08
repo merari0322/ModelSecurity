@@ -13,26 +13,22 @@ namespace Business
     /// </summary>
     public class PermissionBusiness
     {
-        private readonly PermissionData _permisionData;
+        private readonly PermissionData _permissionData;
         private readonly ILogger _logger;
 
-        public PermissionBusiness(PermissionData permisionData, ILogger logger)
+        public PermissionBusiness(PermissionData permissionData, ILogger logger)
         {
-            _permisionData = permisionData;
+            _permissionData = permissionData;
             _logger = logger;
         }
 
         // Método para obtener todos los permisos como DTOs
-        public async Task<IEnumerable<PermissionDTO>> GetAllPermisionsAsync()
+        public async Task<IEnumerable<PermissionDTO>> GetAllPermissionsAsync()
         {
             try
             {
-                var permisions = await _permisionData.GetAllAsync();
-                return permisions.Select(permision => new PermissionDTO
-                {
-                    Id = permision.Id,
-                    Permissiontype = permision.Permissiontype,
-                }).ToList();
+                var permissions = await _permissionData.GetAllAsync();
+                return MapToDTOList(permissions);
             }
             catch (Exception ex)
             {
@@ -42,65 +38,53 @@ namespace Business
         }
 
         // Método para obtener un permiso por ID como DTO
-        public async Task<PermissionDTO> GetPermisionByIdAsync(int id)
+        public async Task<PermissionDTO> GetPermissionByIdAsync(int id)
         {
             if (id <= 0)
             {
-                _logger.LogWarning("Se intentó obtener un permiso con ID inválido: {PermisionId}", id);
+                _logger.LogWarning("Se intentó obtener un permiso con ID inválido: {PermissionId}", id);
                 throw new Utilities.Exceptions.ValidationException("id", "El ID del permiso debe ser mayor que cero");
             }
 
             try
             {
-                var permission = await _permisionData.GetByIdAsync(id);
+                var permission = await _permissionData.GetByIdAsync(id);
                 if (permission == null)
                 {
-                    _logger.LogInformation("No se encontró ningún permiso con ID: {PermisionId}", id);
-                    throw new EntityNotFoundException("Permision", id);
+                    _logger.LogInformation("No se encontró ningún permiso con ID: {PermissionId}", id);
+                    throw new EntityNotFoundException("Permission", id);
                 }
 
-                return new PermissionDTO
-                {
-                    Id = permission.Id,
-                    Permissiontype = permission.Permissiontype
-                };
+                return MapToDTO(permission);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al obtener el permiso con ID: {PermisionId}", id);
+                _logger.LogError(ex, "Error al obtener el permiso con ID: {PermissionId}", id);
                 throw new ExternalServiceException("Base de datos", $"Error al recuperar el permiso con ID {id}", ex);
             }
         }
 
         // Método para crear un permiso desde un DTO
-        public async Task<PermissionDTO> CreatePermisionAsync(PermissionDTO permissionDTO)
+        public async Task<PermissionDTO> CreatePermissionAsync(PermissionDTO permissionDTO)
         {
             try
             {
-                ValidatePermision(permissionDTO);
+                ValidatePermission(permissionDTO);
 
-                var permision = new Permission
-                {
-                    Permissiontype = permissionDTO.Permissiontype,
-                };
+                var permission = MapToEntity(permissionDTO);
+                var createdPermission = await _permissionData.CreateAsync(permission);
 
-                var createdPermision = await _permisionData.CreateAsync(permision);
-
-                return new PermissionDTO
-                {
-                    Id = createdPermision.Id,
-                    Permissiontype = createdPermision.Permissiontype
-                };
+                return MapToDTO(createdPermission);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al crear un nuevo permiso: {PermisionName}", permissionDTO?.Permissiontype ?? "null");
+                _logger.LogError(ex, "Error al crear un nuevo permiso: {PermissionName}", permissionDTO?.Permissiontype ?? "null");
                 throw new ExternalServiceException("Base de datos", "Error al crear el permiso", ex);
             }
         }
 
         // Método para validar el DTO
-        private void ValidatePermision(PermissionDTO permissionDTO)
+        private void ValidatePermission(PermissionDTO permissionDTO)
         {
             if (permissionDTO == null)
             {
@@ -109,9 +93,41 @@ namespace Business
 
             if (string.IsNullOrWhiteSpace(permissionDTO.Permissiontype))
             {
-                _logger.LogWarning("Se intentó crear/actualizar un permiso con Name vacío");
-                throw new Utilities.Exceptions.ValidationException("Name", "El Name del permiso es obligatorio");
+                _logger.LogWarning("Se intentó crear/actualizar un permiso con Permissiontype vacío");
+                throw new Utilities.Exceptions.ValidationException("Permissiontype", "El Permissiontype del permiso es obligatorio");
             }
+        }
+
+        // Método para mapear de Permission a PermissionDTO
+        private PermissionDTO MapToDTO(Permission permission)
+        {
+            return new PermissionDTO
+            {
+                Id = permission.Id,
+                Permissiontype = permission.Permissiontype
+            };
+        }
+
+        // Método para mapear de PermissionDTO a Permission
+        private Permission MapToEntity(PermissionDTO permissionDTO)
+        {
+            return new Permission
+            {
+                Id = permissionDTO.Id,
+                Permissiontype = permissionDTO.Permissiontype
+            };
+        }
+
+        // Método para mapear una lista de Permission a una lista de PermissionDTO
+        private IEnumerable<PermissionDTO> MapToDTOList(IEnumerable<Permission> permissions)
+        {
+            var permissionsDTO = new List<PermissionDTO>();
+            foreach (var permission in permissions)
+            {
+                permissionsDTO.Add(MapToDTO(permission));
+            }
+            return permissionsDTO;
         }
     }
 }
+

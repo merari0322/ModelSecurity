@@ -29,19 +29,10 @@ namespace Business
                 var experienceLineThematics = await _experienceLineThematicData.GetAllAsync();
                 var experienceLineThematicDTOs = new List<ExperiencieLineThematicDTO>();
 
-                foreach (var lineThematic in experienceLineThematics)
-                {
-                    experienceLineThematicDTOs.Add(new ExperiencieLineThematicDTO
-                    {
-                        Id = lineThematic.Id,
-                        LineThematicId = lineThematic.LineThematicId,
-                        ExperienceId = lineThematic.ExperienceId
-                       
-                    });
-                }
-
-                return experienceLineThematicDTOs;
+                return MapToDTOList(experienceLineThematics);
             }
+
+
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al obtener todas las líneas temáticas de experiencias");
@@ -67,12 +58,7 @@ namespace Business
                     throw new EntityNotFoundException("ExperienceLineThematic", id);
                 }
 
-                return new ExperiencieLineThematicDTO
-                {
-                    Id = lineThematic.Id,
-                    LineThematicId = lineThematic.LineThematicId,
-                    ExperienceId = lineThematic.ExperienceId
-                };
+                return MapToDTO(lineThematic);
             }
 
             catch (Exception ex)
@@ -89,21 +75,10 @@ namespace Business
             {
                 ValidateExperienceLineThematic(experienceLineThematicDto);
 
-                var lineThematic = new ExperienciaLineThematic
-                {
-                      LineThematicId = experienceLineThematicDto.LineThematicId,
-                      ExperienceId = experienceLineThematicDto.ExperienceId
-                   
-                };
-
+                var lineThematic = MapToEntity(experienceLineThematicDto);
                 var lineThematicCreated = await _experienceLineThematicData.CreateAsync(lineThematic);
 
-                return new ExperiencieLineThematicDTO
-                {
-                    Id = lineThematicCreated.Id,
-                        LineThematicId = lineThematicCreated.LineThematicId,
-                        ExperienceId = lineThematicCreated.ExperienceId
-                };
+                return MapToDTO(lineThematicCreated);
             }
             catch (Exception ex)
             {
@@ -125,6 +100,39 @@ namespace Business
                 _logger.LogWarning("Se intentó crear/actualizar una línea temática de experiencia con Name vacío");
                 throw new Utilities.Exceptions.ValidationException("Name", "El Name de la línea temática de experiencia es obligatorio");
             }
+        }
+
+        //Metodo para mapear de ExperienciaLineThematic a ExperiencieLineThematicDTO
+        private ExperiencieLineThematicDTO MapToDTO(ExperienciaLineThematic lineThematic)
+        {
+            return new ExperiencieLineThematicDTO
+            {
+                Id = lineThematic.Id,
+                LineThematicId = lineThematic.LineThematicId,
+                ExperienceId = lineThematic.ExperienceId
+            };
+        }
+
+        //metodo para mapear de ExperiencieLineThematicDTO a ExperienciaLineThematic        
+        private ExperienciaLineThematic MapToEntity(ExperiencieLineThematicDTO lineThematicDto)
+        {
+            return new ExperienciaLineThematic
+            {
+                Id = lineThematicDto.Id,
+                LineThematicId = lineThematicDto.LineThematicId,
+                ExperienceId = lineThematicDto.ExperienceId
+            };
+        }
+
+        //Metodo patra mapear una lista de ExperienciaLineThematic a una lista de ExperiencieLineThematicDTO
+        private IEnumerable<ExperiencieLineThematicDTO> MapToDTOList(IEnumerable<ExperienciaLineThematic> lineThematics)
+        {
+            var lineThematiscDTO = new List<ExperiencieLineThematicDTO>();
+            foreach (var lineThematic in lineThematics)
+            {
+                lineThematiscDTO.Add(MapToDTO(lineThematic));
+            }
+            return lineThematiscDTO;
         }
     }
 }

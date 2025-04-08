@@ -27,12 +27,7 @@ namespace Business
             try
             {
                 var grades = await _gradeData.GetAllAsync();
-                return grades.Select(grade => new GradeDTO
-                {
-                    Id = grade.Id,
-                    Name = grade.Name,
-                    Level = grade.Level,
-                }).ToList();
+                return MapToDTOList(grades);
             }
             catch (Exception ex)
             {
@@ -59,12 +54,7 @@ namespace Business
                     throw new EntityNotFoundException("Grade", id);
                 }
 
-                return new GradeDTO
-                {
-                    Id = grade.Id,
-                    Name = grade.Name,
-                    Level = grade.Level
-                };
+                return MapToDTO(grade);
             }
             catch (Exception ex)
             {
@@ -80,22 +70,11 @@ namespace Business
             {
                 ValidateGrade(gradeDTO);
 
-                var grade = new Grade
-                {
-                    Name = gradeDTO.Name,
-                    Level = gradeDTO.Level,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
-                };
+                var grade = MapToEntity(gradeDTO);
 
                 var createdGrade = await _gradeData.CreateAsync(grade);
 
-                return new GradeDTO
-                {
-                    Id = createdGrade.Id,
-                    Name = createdGrade.Name,
-                    Level = createdGrade.Level
-                };
+                return MapToDTO(createdGrade);
             }
             catch (Exception ex)
             {
@@ -117,6 +96,41 @@ namespace Business
                 _logger.LogWarning("Se intentó crear/actualizar un grado con Name vacío");
                 throw new Utilities.Exceptions.ValidationException("Name", "El Name del grado es obligatorio");
             }
+        }
+
+        // Método para mapear de Rol a RolDTO
+        private GradeDTO MapToDTO(Grade grade)
+        {
+            return new GradeDTO
+            {
+                Id = grade.Id,
+                Name = grade.Name,
+                Level = grade.Level
+            };
+        }
+
+        // Método para mapear de RolDTO a Rol
+        private Grade MapToEntity(GradeDTO gradeDTO)
+        {
+            return new Grade
+            {
+                Id = gradeDTO.Id,
+                Name = gradeDTO.Name,
+                Level = gradeDTO.Level,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+        }
+
+        // Método para mapear una lista de Rol a una lista de RolDTO
+        private IEnumerable<GradeDTO> MapToDTOList(IEnumerable<Grade> grades)
+        {
+            var gradesDTO = new List<GradeDTO>();
+            foreach (var grade in grades)
+            {
+                gradesDTO.Add(MapToDTO(grade));
+            }
+            return gradesDTO;
         }
     }
 }

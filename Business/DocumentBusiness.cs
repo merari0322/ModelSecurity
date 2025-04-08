@@ -27,20 +27,7 @@ namespace Business
             try
             {
                 var documents = await _documentData.GetAllAsync();
-                var documentDTOs = new List<DocumentDTO>();
-
-                foreach (var document in documents)
-                {
-                    documentDTOs.Add(new DocumentDTO
-                    {
-                        Id = document.Id,
-                        Url = document.Url,
-                        Name = document.Name,
-                        
-                    });
-                }
-
-                return documentDTOs;
+                return MapToDocumentDTOList(documents);
             }
             catch (Exception ex)
             {
@@ -67,12 +54,7 @@ namespace Business
                     throw new EntityNotFoundException("Document", id);
                 }
 
-                return new DocumentDTO
-                {
-                     Id = document.Id,
-                        Url = document.Url,
-                        Name = document.Name,
-                };
+                return MapToDocumentDTO(document);
             }
             catch (Exception ex)
             {
@@ -88,21 +70,11 @@ namespace Business
             {
                 ValidateDocument(documentDto);
 
-                var document = new Document
-                {
-                   
-                        Url = documentDto.Url,
-                        Name = documentDto.Name,
-                };
+                var document = MapToDocument(documentDto);
 
                 var documentCreated = await _documentData.CreateAsync(document);
 
-                return new DocumentDTO
-                {
-                  Id = document.Id,
-                        Url = document.Url,
-                        Name = document.Name,
-                };
+                return MapToDocumentDTO(documentCreated);
             }
             catch (Exception ex)
             {
@@ -124,6 +96,39 @@ namespace Business
                 _logger.LogWarning("Se intentó crear/actualizar un documento con Title vacío");
                 throw new Utilities.Exceptions.ValidationException("Title", "El Title del documento es obligatorio");
             }
+        }
+
+        //Metodo para mapear el Document a DocumentDTO
+        private DocumentDTO MapToDocumentDTO(Document document)
+        {
+            return new DocumentDTO
+            {
+                Id = document.Id,
+                Url = document.Url,
+                Name = document.Name,
+            };
+        }
+
+        //Metodo para mapear el DocumentDTO a Document
+        private Document MapToDocument(DocumentDTO documentDto)
+        {
+            return new Document
+            {
+                Id = documentDto.Id,
+                Url = documentDto.Url,
+                Name = documentDto.Name,
+            };
+        }
+
+        //Metodo para mapear una lista de Document a una lista de DocumentDTO
+        private List<DocumentDTO> MapToDocumentDTOList(IEnumerable<Document> documents)
+        {
+            var documentsDTO = new List<DocumentDTO>();
+            foreach (var document in documents)
+            {
+                documentsDTO.Add(MapToDocumentDTO(document));
+            }
+            return documentsDTO;
         }
     }
 }

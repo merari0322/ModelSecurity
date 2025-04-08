@@ -26,13 +26,7 @@ namespace Business
             try
             {
                 var criteria = await _evaluationCriteriaData.GetAllAsync();
-                return criteria.Select(criterion => new EvaluationCriteriaDTO
-                {
-                    Id = criterion.Id,
-                    Score = criterion.Score,
-                    EvaluationId = criterion.EvaluationId
-                   
-                }).ToList();
+                return MapToDTOList(criteria);
             }
             catch (Exception ex)
             {
@@ -59,12 +53,7 @@ namespace Business
                     throw new EntityNotFoundException("EvaluationCriteria", id);
                 }
 
-                return new EvaluationCriteriaDTO
-                {
-                   Id = criterion.Id,
-                    Score = criterion.Score,
-                    EvaluationId = criterion.EvaluationId
-                };
+                return MapToDTO(criterion);
             }
             catch (Exception ex)
             {
@@ -80,22 +69,11 @@ namespace Business
             {
                 ValidateEvaluationCriteria(criteriaDTO);
 
-                var Criteria = new EvaluationCriteria
-                {
-                    Score = criteriaDTO.Score,
-                    EvaluationId = criteriaDTO.EvaluationId,
-                   
-                };
+                var Criteria = MapToEntity(criteriaDTO);
 
                 var createdCriterion = await _evaluationCriteriaData.CreateAsync(Criteria);
 
-                return new EvaluationCriteriaDTO
-                {
-                    Id = createdCriterion.Id,
-                    Score = createdCriterion.Score,
-                    EvaluationId = createdCriterion.EvaluationId,
-                   
-                };
+                return MapToDTO(createdCriterion);
             }
             catch (Exception ex)
             {
@@ -118,6 +96,41 @@ namespace Business
                 throw new Utilities.Exceptions.ValidationException("Name", "El Name del criterio de evaluación es obligatorio");
             }
 
+        }
+
+        // Metodo para mapear de EvaluationCriteria a EvaluationCriteriaDTO
+        private EvaluationCriteriaDTO MapToDTO(EvaluationCriteria criteria)
+        {
+            return new EvaluationCriteriaDTO
+            {
+                Id = criteria.Id,
+                Score = criteria.Score,
+                Name = criteria. Name,
+                EvaluationId = criteria.EvaluationId
+            };
+        }
+
+        //Metodo para mapear de EvaluationCriteriaDTO a EvaluationCriteria
+        private EvaluationCriteria MapToEntity(EvaluationCriteriaDTO criteriaDTO)
+        {
+            return new EvaluationCriteria
+            {
+                Id = criteriaDTO.Id,
+                Score = criteriaDTO.Score,
+                Name = criteriaDTO.Name,
+                EvaluationId = criteriaDTO.EvaluationId
+            };
+        }
+
+        //Metodo para mapear una lista de EvaluacionCriteria a una lista de EvaluacionCriteria
+        private IEnumerable<EvaluationCriteriaDTO> MapToDTOList(IEnumerable<EvaluationCriteria> evaluationCriterias)
+        {
+            var evaluationcriteriasDTO = new List<EvaluationCriteriaDTO>();
+            foreach (var evaluationCriteria in evaluationCriterias)
+            {
+                evaluationcriteriasDTO.Add(MapToDTO(evaluationCriteria));
+            }
+            return evaluationcriteriasDTO;
         }
     }
 }

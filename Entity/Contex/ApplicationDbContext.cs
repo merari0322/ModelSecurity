@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
+using Entity.ModelExperience;
 
 
 namespace Entity.Contexs
@@ -20,11 +21,24 @@ namespace Entity.Contexs
         public DbSet<Criteria> Criteria { get; set; }
         public DbSet<Model.Document> Document { get; set; }
         public DbSet<Evaluation> Evaluation { get; set; }
-        public DbSet<Evaluation> EvaluationCriteria { get; set; }
-
-
-
-
+        public DbSet<EvaluationCriteria> EvaluationCriteria { get; set; }
+        public DbSet<Experience> Experience { get; set; }
+        public DbSet<ExperienceGrade> ExperienceGrade { get; set; }
+        public DbSet<ExperienciaLineThematic> ExperienciaLineThematic { get; set; }
+        public DbSet<ExperiencePopulation> ExperienciePopulation { get; set; }
+        public DbSet<Grade> Grade { get; set; }
+        public DbSet<HistoryExperience> HistoryExperience{ get; set; }
+        public DbSet<Institution> Institution{ get; set; }
+        public DbSet<LineThematic> LineThematic { get; set; }
+        public DbSet<Objective> Objective { get; set; }
+        public DbSet<Permission> Permission { get; set; }
+        public DbSet<Person> Person { get; set; }
+        public DbSet<PopulationGrade> PopulationGrade { get; set; }
+        public DbSet<Rol> Rol { get; set; }
+        public DbSet<State> State { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<UserRol> UserRol { get; set; }
+        public DbSet<Verification> Verification { get; set; }
 
 
         ///<summary> 

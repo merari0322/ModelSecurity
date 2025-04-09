@@ -43,7 +43,7 @@ namespace Web.Controllers
         {
             try
             {
-                var RolPermissions = await _RolPermissionBusiness.GetAllRolPermisionsAsync();
+                var RolPermissions = await _RolPermissionBusiness.GetAllRolPermissionsAsync();
                 return Ok(RolPermissions);
             }
             catch (ExternalServiceException ex)
@@ -71,7 +71,7 @@ namespace Web.Controllers
         {
             try
             {
-                var RolPermission = await _RolPermissionBusiness.GetRolPermisionByIdAsync(id);
+                var RolPermission = await _RolPermissionBusiness.GetRolPermissionByIdAsync(id);
                 return Ok(RolPermission);
             }
             catch (ValidationException ex)
@@ -107,7 +107,7 @@ namespace Web.Controllers
         {
             try
             {
-                var createdRolPermission = await _RolPermissionBusiness.CreateRolPermisionAsync(RolPermission);
+                var createdRolPermission = await _RolPermissionBusiness.CreateRolPermissionAsync(RolPermission);
                 return CreatedAtAction(nameof(GetRolPermissionById), new { id = createdRolPermission.Id }, createdRolPermission);
             }
             catch (ValidationException ex)

@@ -40,7 +40,7 @@ namespace Web
         {
             try
             {
-                var users = await _UserBusiness.GetAllUserAsync();
+                var users = await _UserBusiness.GetAllUsersAsync();
                 return Ok(users);
             }
             catch (ExternalServiceException ex)
@@ -104,7 +104,7 @@ namespace Web
         {
             try
             {
-                var createdUser = await _UserBusiness.CreateRolAsync(user);
+                var createdUser = await _UserBusiness.CreateUserAsync(user);
                 return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
             }
             catch (ValidationException ex)

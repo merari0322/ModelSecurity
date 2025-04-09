@@ -44,7 +44,7 @@ namespace Web.Controllers
         {
             try
             {
-                var permissions = await _PermissionBusiness.GetAllPermisionsAsync();
+                var permissions = await _PermissionBusiness.GetAllPermissionsAsync();
                 return Ok(permissions);
             }
             catch (ExternalServiceException ex)
@@ -72,7 +72,7 @@ namespace Web.Controllers
         {
             try
             {
-                var permission = await _PermissionBusiness.GetPermisionByIdAsync(id);
+                var permission = await _PermissionBusiness.GetPermissionByIdAsync(id);
                 return Ok(permission);
             }
             catch (ValidationException ex)
@@ -108,7 +108,7 @@ namespace Web.Controllers
         {
             try
             {
-                var createdPermission = await _PermissionBusiness.CreatePermisionAsync(permission);
+                var createdPermission = await _PermissionBusiness.CreatePermissionAsync(permission);
                 return CreatedAtAction(nameof(GetPermissionById), new { id = createdPermission.Id }, createdPermission);
             }
             catch (ValidationException ex)

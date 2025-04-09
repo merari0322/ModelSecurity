@@ -41,7 +41,7 @@ namespace Web
         {
             try
             {
-                var institutions = await _InstitutionBusiness.GetAllInstitucionesAsync();
+                var institutions = await _InstitutionBusiness.GetAllInstitutionsAsync();
                 return Ok(institutions);
             }
             catch (ExternalServiceException ex)
@@ -69,7 +69,7 @@ namespace Web
         {
             try
             {
-                var institution = await _InstitutionBusiness.GetInstitucionByIdAsync(id);
+                var institution = await _InstitutionBusiness.GetInstitutionByIdAsync(id);
                 return Ok(institution);
             }
             catch (ValidationException ex)
@@ -105,7 +105,7 @@ namespace Web
         {
             try
             {
-                var createdInstitution = await _InstitutionBusiness.CreateInstitucionAsync(institution);
+                var createdInstitution = await _InstitutionBusiness.CreateInstitutionAsync(institution);
                 return CreatedAtAction(nameof(GetInstitutionById), new { id = createdInstitution.Id }, createdInstitution);
             }
             catch (ValidationException ex)

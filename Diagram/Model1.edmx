@@ -643,7 +643,7 @@
         <EntityTypeShape EntityType="Model1.RolPermission" Width="1.5" PointX="2.875" PointY="0.625" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.UserRol" Width="1.5" PointX="0.5" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.Permission" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.HistoryExperience" Width="1.5" PointX="12.75" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.HistoryExperience" Width="1.5" PointX="12.625" PointY="14.5" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.State" Width="1.5" PointX="0.5" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.Evaluation" Width="1.5" PointX="4.5" PointY="10.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.EvaluationCriteria" Width="1.5" PointX="4.75" PointY="14" IsExpanded="true" />
@@ -663,11 +663,11 @@
         <EntityTypeShape EntityType="Model1.Person" Width="1.5" PointX="3.5" PointY="5.125" IsExpanded="true" />
         <AssociationConnector Association="Model1.UsuarioUsuario_Rol" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.UsuarioHistorial_Experiencia" ManuallyRouted="true" >
-          <ConnectorPoint PointX="7.875" PointY="9.2049791500023623" />
-          <ConnectorPoint PointX="9.75" PointY="9.2049791500023623" />
-          <ConnectorPoint PointX="9.75" PointY="12.444256514572533" />
-          <ConnectorPoint PointX="13.5" PointY="12.444256514572533" />
-          <ConnectorPoint PointX="13.5" PointY="15.625" />
+          <ConnectorPoint PointX="7.235569523197622" PointY="9.5186979166666656" />
+          <ConnectorPoint PointX="7.235569523197622" PointY="13.459112555371604" />
+          <ConnectorPoint PointX="10.846487942655216" PointY="13.459112555371604" />
+          <ConnectorPoint PointX="10.846487942655216" PointY="16.771139322916667" />
+          <ConnectorPoint PointX="12.625" PointY="16.771139322916667" />
         </AssociationConnector>
         <AssociationConnector Association="Model1.UsuarioEvaluacion" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.UsuarioExperiencia" ManuallyRouted="false" />
